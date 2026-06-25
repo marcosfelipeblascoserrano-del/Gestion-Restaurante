@@ -1,0 +1,190 @@
+/* ---- Colour palette ---- */
+.text-restaurant {
+    color: #8B1A1A !important;
+}
+
+.btn-restaurant {
+    background-color: #8B1A1A;
+    border-color: #8B1A1A;
+    color: #fff;
+}
+
+.btn-restaurant:hover {
+    background-color: #6e1414;
+    border-color: #6e1414;
+    color: #fff;
+}
+
+.btn-outline-restaurant {
+    color: #8B1A1A;
+    border-color: #8B1A1A;
+}
+
+.btn-outline-restaurant:hover {
+    background-color: #8B1A1A;
+    color: #fff;
+}
+
+/* ---- Section helpers ---- */
+.py-6 {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+.bg-light-cream {
+    background-color: #fdf7f0;
+}
+
+.section-label {
+    display: block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    color: #8B1A1A;
+    margin-bottom: 0.5rem;
+}
+
+.section-title {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 0.75rem;
+}
+
+/* ---- Hero ---- */
+.hero-section {
+    min-height: 100vh;
+    background: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
+    position: relative;
+}
+
+.hero-overlay {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(160deg, rgba(0, 0, 0, 0.72) 30%, rgba(139, 26, 26, 0.6) 100%);
+}
+
+.hero-tagline {
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    color: rgba(255, 255, 255, 0.65);
+    font-weight: 600;
+}
+
+.letter-spacing {
+    letter-spacing: 3px;
+}
+
+.hero-title {
+    line-height: 1.15;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+}
+
+.hero-subtitle {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.animate-bounce {
+    animation: bounceY 1.6s ease-in-out infinite;
+}
+
+@keyframes bounceY {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(8px);
+    }
+}
+
+/* ---- Info strip ---- */
+.info-strip {
+    border-bottom: 1px solid #f0e8e8;
+}
+
+/* ---- Dish cards ---- */
+.dish-icon-area {
+    background: linear-gradient(135deg, #fdf0f0, #f9e8e0);
+    height: 140px;
+}
+
+.dish-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.dish-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.1) !important;
+}
+
+.badge-category {
+    display: inline-block;
+    background-color: #fdf0f0;
+    color: #8B1A1A;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.dish-price {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* ---- Reservation section ---- */
+.reservation-section {
+    background: linear-gradient(135deg, #8B1A1A 0%, #5d1111 100%);
+}
+
+.text-white-75 {
+    color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.guests-btn {
+    transition: all 0.2s;
+}
+
+.guests-btn:hover,
+.guests-btn.active {
+    background-color: #8B1A1A;
+    border-color: #8B1A1A;
+    color: #fff;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #8B1A1A;
+    box-shadow: 0 0 0 0.2rem rgba(139, 26, 26, 0.15);
+}
+
+/* ---- Testimonials ---- */
+.testimonial-card {
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08) !important;
+}
+
+.avatar-sm {
+    width: 38px;
+    height: 38px;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+/* ---- Footer ---- */
+.footer-section {
+    background: linear-gradient(180deg, #1a0a0a 0%, #0d0404 100%);
+}

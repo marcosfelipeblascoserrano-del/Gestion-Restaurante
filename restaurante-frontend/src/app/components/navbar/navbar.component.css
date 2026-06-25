@@ -1,0 +1,18 @@
+.nav-hover {
+  transition: all 0.25s;
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.nav-hover:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #fff !important;
+}
+
+.nav-cta {
+  transition: all 0.25s;
+}
+
+.nav-cta:hover {
+  background-color: #fff;
+  color: #8B1A1A !important;
+}

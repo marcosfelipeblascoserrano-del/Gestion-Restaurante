@@ -1,0 +1,220 @@
+<!-- ========== HERO SECTION ========== -->
+<section class="hero-section d-flex align-items-center justify-content-center text-center text-white position-relative">
+    <div class="hero-overlay position-absolute inset-0"></div>
+    <div class="position-relative z-1 px-3">
+        <p class="hero-tagline text-uppercase letter-spacing mb-3">Gestión Restaurante</p>
+        <h1 class="hero-title display-3 fw-bold mb-4">
+            Cocina de autor<br>con alma tradicional
+        </h1>
+        <p class="hero-subtitle lead mb-5 mx-auto" style="max-width: 560px;">
+            Cada plato es una historia. Ven a descubrir sabores auténticos en un ambiente íntimo y cálido en el corazón
+            de la ciudad.
+        </p>
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+            <a href="#reserva" class="btn btn-restaurant btn-lg px-5 py-3 rounded-pill fw-semibold shadow">
+                <i class="bi bi-calendar-check me-2"></i>Reservar Mesa
+            </a>
+            <a href="#menu" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill fw-semibold">
+                <i class="bi bi-book me-2"></i>Ver Carta
+            </a>
+        </div>
+    </div>
+    <div class="hero-scroll-indicator position-absolute bottom-0 mb-4">
+        <i class="bi bi-chevron-double-down fs-4 animate-bounce text-white-50"></i>
+    </div>
+</section>
+
+<!-- ========== INFO STRIP ========== -->
+<section class="info-strip bg-white shadow-sm py-4">
+    <div class="container">
+        <div class="row g-3 text-center justify-content-center">
+            <div class="col-sm-4 col-md-3">
+                <div class="d-flex align-items-center justify-content-center gap-2 text-muted">
+                    <i class="bi bi-clock fs-5 text-restaurant"></i>
+                    <div class="text-start">
+                        <div class="fw-semibold text-dark" style="line-height:1.2">Horario</div>
+                        <small>Mar–Dom, 13:00–23:00</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-3">
+                <div class="d-flex align-items-center justify-content-center gap-2 text-muted">
+                    <i class="bi bi-geo-alt fs-5 text-restaurant"></i>
+                    <div class="text-start">
+                        <div class="fw-semibold text-dark" style="line-height:1.2">Ubicación</div>
+                        <small>Calle Principal, 12 - Madrid</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-3">
+                <div class="d-flex align-items-center justify-content-center gap-2 text-muted">
+                    <i class="bi bi-telephone fs-5 text-restaurant"></i>
+                    <div class="text-start">
+                        <div class="fw-semibold text-dark" style="line-height:1.2">Reservas</div>
+                        <small>+34 910 000 000</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== FEATURED MENU ========== -->
+<section id="menu" class="py-6 bg-light-cream">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <span class="section-label">Nuestra Carta</span>
+            <h2 class="section-title">Platos Destacados</h2>
+            <p class="text-muted mx-auto" style="max-width: 480px;">Una selección de nuestras propuestas más queridas
+                por los comensales.</p>
+        </div>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-4" *ngFor="let dish of featuredDishes">
+                <div class="dish-card bg-white rounded-4 shadow-sm overflow-hidden h-100">
+                    <div class="dish-icon-area d-flex align-items-center justify-content-center">
+                        <i class="bi {{ dish.icon }} display-3 text-restaurant opacity-75"></i>
+                    </div>
+                    <div class="p-4">
+                        <span class="badge-category mb-2">{{ dish.category }}</span>
+                        <h4 class="fw-bold mb-2">{{ dish.name }}</h4>
+                        <p class="text-muted mb-3">{{ dish.description }}</p>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span class="dish-price fw-bold fs-5 text-restaurant">{{ dish.price }}</span>
+                            <button class="btn btn-outline-restaurant btn-sm rounded-pill px-3">
+                                <i class="bi bi-plus-circle me-1"></i>Añadir
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-5">
+            <a href="#" class="btn btn-restaurant btn-lg rounded-pill px-5 fw-semibold shadow-sm">
+                Ver carta completa <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ========== RESERVATION CTA ========== -->
+<section id="reserva" class="py-6 reservation-section text-white">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5">
+                <span class="section-label text-white-50">¿Tienes un plan especial?</span>
+                <h2 class="section-title text-white">Reserva tu mesa ahora</h2>
+                <p class="text-white-75 mb-4">
+                    Celebra con nosotros: cumpleaños, aniversarios, reuniones de empresa. Nos adaptamos a tus
+                    necesidades.
+                </p>
+                <ul class="list-unstyled text-white-75 mb-0">
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Confirmación inmediata por
+                        email</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Cancelación gratuita hasta
+                        24h antes</li>
+                    <li><i class="bi bi-check-circle-fill text-success me-2"></i>Menús especiales bajo petición</li>
+                </ul>
+            </div>
+            <div class="col-lg-7">
+                <div class="reservation-form bg-white rounded-4 shadow-lg p-4 p-md-5">
+                    <h4 class="fw-bold text-dark mb-4">Datos de la reserva</h4>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium text-dark small">Nombre</label>
+                            <input type="text" class="form-control rounded-3" placeholder="Tu nombre">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium text-dark small">Teléfono</label>
+                            <input type="tel" class="form-control rounded-3" placeholder="+34 000 000 000">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium text-dark small">Fecha</label>
+                            <input type="date" class="form-control rounded-3">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium text-dark small">Hora</label>
+                            <select class="form-select rounded-3">
+                                <option>13:00</option>
+                                <option>13:30</option>
+                                <option>14:00</option>
+                                <option>20:00</option>
+                                <option>20:30</option>
+                                <option>21:00</option>
+                                <option>21:30</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-medium text-dark small">Número de personas</label>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <button class="btn btn-outline-secondary rounded-pill px-3 btn-sm guests-btn"
+                                    *ngFor="let n of [1,2,3,4,5,6]">{{ n }} {{ n === 1 ? 'pers.' : 'pers.' }}</button>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <button class="btn btn-restaurant w-100 py-3 rounded-3 fw-semibold fs-6 shadow">
+                                <i class="bi bi-calendar-check me-2"></i>Confirmar Reserva
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== TESTIMONIALS ========== -->
+<section class="py-6 bg-light-cream">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <span class="section-label">Opiniones</span>
+            <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+        </div>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-4" *ngFor="let t of testimonials">
+                <div class="testimonial-card bg-white rounded-4 shadow-sm p-4 h-100 d-flex flex-column">
+                    <div class="mb-3">
+                        <i class="bi bi-star-fill text-warning" *ngFor="let s of getStars(t.rating)"></i>
+                    </div>
+                    <p class="text-muted fst-italic flex-grow-1">"{{ t.text }}"</p>
+                    <div class="d-flex align-items-center mt-3 pt-3 border-top gap-2">
+                        <div
+                            class="avatar-sm bg-restaurant text-white fw-bold rounded-circle d-flex align-items-center justify-content-center">
+                            {{ t.name.charAt(0) }}
+                        </div>
+                        <span class="fw-semibold text-dark">{{ t.name }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer-section text-white pt-5 pb-3">
+    <div class="container">
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <i class="bi bi-shop fs-4"></i>
+                    <span class="fw-bold fs-5">Gestión Restaurante</span>
+                </div>
+                <p class="text-white-50 mb-0">Cocina de autor con alma tradicional.<br>Pasión por los sabores auténticos
+                    desde 1998.</p>
+            </div>
+            <div class="col-md-4">
+                <h6 class="fw-semibold mb-3">Horario</h6>
+                <p class="text-white-50 mb-1">Martes a Domingo</p>
+                <p class="text-white-50 mb-1">Mediodía: 13:00 – 16:00</p>
+                <p class="text-white-50 mb-0">Noche: 20:00 – 23:00</p>
+            </div>
+            <div class="col-md-4">
+                <h6 class="fw-semibold mb-3">Contacto</h6>
+                <p class="text-white-50 mb-1"><i class="bi bi-geo-alt me-2"></i>Calle Principal, 12 - Madrid</p>
+                <p class="text-white-50 mb-1"><i class="bi bi-telephone me-2"></i>+34 910 000 000</p>
+                <p class="text-white-50 mb-0"><i class="bi bi-envelope me-2"></i>hola@labelleepoque.es</p>
+            </div>
+        </div>
+        <hr class="border-white border-opacity-25">
+        <p class="text-center text-white-50 mb-0 small">© 2026 Gestión Restaurante. Todos los derechos reservados.</p>
+    </div>
+</footer>
