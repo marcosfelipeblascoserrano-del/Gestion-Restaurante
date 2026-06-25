@@ -21,6 +21,9 @@ public class Plato {
 
     private Boolean disponible;
 
+    @Column(name = "imagen_url")
+    private String imagenUrl;
+
     @ManyToMany
     @JoinTable(name = "plato_alergeno", joinColumns = @JoinColumn(name = "plato_id"), inverseJoinColumns = @JoinColumn(name = "alergeno_id"))
     private List<Alergeno> alergenos;
@@ -66,6 +69,14 @@ public class Plato {
 
     public void setDisponible(Boolean disponible) {
         this.disponible = disponible;
+    }
+
+    public String getImagenUrl() {
+        return imagenUrl;
+    }
+
+    public void setImagenUrl(String imagenUrl) {
+        this.imagenUrl = imagenUrl;
     }
 
     public List<Alergeno> getAlergenos() {
