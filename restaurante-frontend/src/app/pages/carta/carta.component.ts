@@ -15,9 +15,14 @@ export class CartaComponent implements OnInit {
     constructor(private categoriaService: CategoriaService, private platoService: PlatoService) { }
 
     categoriasConPlatos: any[] = [];
+    platoSeleccionado: Plato | null = null;
 
     ngOnInit(): void {
         this.cargarDatos();
+    }
+
+    seleccionarPlato(plato: Plato): void {
+        this.platoSeleccionado = plato;
     }
 
     scrollLeft(element: HTMLElement): void {

@@ -1,3 +1,6 @@
+import { Ingrediente } from './ingrediente';
+import { Alergeno } from './alergeno';
+
 export class Plato {
     constructor(
         public id: number,
@@ -7,6 +10,7 @@ export class Plato {
         public disponible: boolean,
         public imagenUrl: string,
         public categoria: string,
-        public alergenos: string[]
+        public alergenos: Alergeno[],
+        public ingredientes: Ingrediente[]
     ) { }
 }

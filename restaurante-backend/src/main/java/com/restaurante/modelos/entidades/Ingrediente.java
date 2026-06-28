@@ -1,12 +1,11 @@
 package com.restaurante.modelos.entidades;
 
-import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.List;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name = "alergenos")
-public class Alergeno {
+@Table(name = "ingredientes")
+public class Ingrediente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,11 +13,12 @@ public class Alergeno {
 
     private String nombre;
 
-    @ManyToMany(mappedBy = "alergenos")
-    @JsonIgnore
-    private List<Plato> platos;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "plato_id")
+    @JsonIgnore // Evita ciclos al serializar a JSON
+    private Plato plato;
 
-    public Alergeno() {
+    public Ingrediente() {
     }
 
     public Long getId() {
@@ -37,11 +37,11 @@ public class Alergeno {
         this.nombre = nombre;
     }
 
-    public List<Plato> getPlatos() {
-        return platos;
+    public Plato getPlato() {
+        return plato;
     }
 
-    public void setPlatos(List<Plato> platos) {
-        this.platos = platos;
+    public void setPlato(Plato plato) {
+        this.plato = plato;
     }
 }

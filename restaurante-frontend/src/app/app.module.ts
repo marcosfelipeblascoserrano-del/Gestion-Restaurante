@@ -10,13 +10,15 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CartaComponent } from './pages/carta/carta.component';
 import { PlatoService } from './services/plato.service';
+import { IngredientesModalComponent } from './components/ingredientes-modal/ingredientes-modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     DashboardComponent,
-    CartaComponent
+    CartaComponent,
+    IngredientesModalComponent
   ],
   imports: [
     BrowserModule,

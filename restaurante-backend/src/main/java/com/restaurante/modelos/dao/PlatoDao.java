@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface PlatoDao extends JpaRepository<Plato, Long> {
 
-    @EntityGraph(attributePaths = { "categoria", "alergenos" })
+    @EntityGraph(attributePaths = { "categoria", "alergenos", "ingredientes" })
     List<Plato> findAll();
 }

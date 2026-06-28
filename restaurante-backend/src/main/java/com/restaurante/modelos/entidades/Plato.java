@@ -1,7 +1,7 @@
 package com.restaurante.modelos.entidades;
 
 import jakarta.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "platos")
@@ -26,7 +26,10 @@ public class Plato {
 
     @ManyToMany
     @JoinTable(name = "plato_alergeno", joinColumns = @JoinColumn(name = "plato_id"), inverseJoinColumns = @JoinColumn(name = "alergeno_id"))
-    private List<Alergeno> alergenos;
+    private Set<Alergeno> alergenos;
+
+    @OneToMany(mappedBy = "plato", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Ingrediente> ingredientes;
 
     public Plato() {
     }
@@ -79,11 +82,19 @@ public class Plato {
         this.imagenUrl = imagenUrl;
     }
 
-    public List<Alergeno> getAlergenos() {
+    public Set<Alergeno> getAlergenos() {
         return alergenos;
     }
 
-    public void setAlergenos(List<Alergeno> alergenos) {
+    public void setAlergenos(Set<Alergeno> alergenos) {
         this.alergenos = alergenos;
+    }
+
+    public Set<Ingrediente> getIngredientes() {
+        return ingredientes;
+    }
+
+    public void setIngredientes(Set<Ingrediente> ingredientes) {
+        this.ingredientes = ingredientes;
     }
 }

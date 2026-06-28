@@ -43,24 +43,22 @@
                                 {{ plato.precio | currency:'EUR':'symbol' }}
                             </span>
                         </div>
+
+                        <!-- Hover overlay -->
+                        <div class="dish-img-overlay" (click)="seleccionarPlato(plato)" data-bs-toggle="modal"
+                            data-bs-target="#ingredientesModal">
+                            <i class="bi bi-eye fs-3"></i>
+                            <span>Ver ingredientes</span>
+                        </div>
                     </div>
                     <div class="card-body p-4 d-flex flex-column bg-white">
                         <h5 class="card-title fw-bold text-dark mb-2 fs-5">{{ plato.nombre }}</h5>
-                        <p class="card-text text-secondary mb-3 small flex-grow-1" style="font-size: 0.92rem;">{{
-                            plato.descripcion }}</p>
-
-                        <!-- Optional allergen display -->
-                        <div class="d-flex align-items-center mt-auto pt-3 border-top gap-2 overflow-hidden"
-                            style="white-space: nowrap;" *ngIf="plato.alergenos && plato.alergenos.length > 0">
-                            <span *ngFor="let alergeno of plato.alergenos"
-                                class="badge bg-light text-secondary border border-light-subtle rounded-2 px-2 py-1">
-                                {{ alergeno.nombre }}
-                            </span>
-                        </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Ingredientes Modal -->
+<app-ingredientes-modal [plato]="platoSeleccionado"></app-ingredientes-modal>

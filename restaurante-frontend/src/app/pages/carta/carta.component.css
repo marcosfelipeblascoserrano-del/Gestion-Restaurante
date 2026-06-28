@@ -87,3 +87,30 @@
     background-color: #ff6b35;
     color: white;
 }
+
+/* Hover overlay */
+.dish-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    gap: 6px;
+}
+
+.dish-card:hover .dish-img-overlay {
+    opacity: 1;
+}
+
+.dish-img-overlay span {
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
