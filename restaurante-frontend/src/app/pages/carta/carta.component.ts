@@ -28,29 +28,12 @@ export class CartaComponent implements OnInit {
         element.scrollBy({ left: 400, behavior: 'smooth' });
     }
 
-    // Imagen representativa por categoría
-    private readonly imagenPorCategoria: Record<string, string> = {
-        'Entrantes': 'assets/fotosPlatos/ensalada.png',
-        'Ensaladas': 'assets/fotosPlatos/ensalada.png',
-        'Sopas y Cremas': 'assets/fotosPlatos/sopa.png',
-        'Sopas': 'assets/fotosPlatos/sopa.png',
-        'Pastas': 'assets/fotosPlatos/pasta.png',
-        'Pizzas': 'assets/fotosPlatos/pizza.png',
-        'Hamburguesas': 'assets/fotosPlatos/hamburguesa.png',
-        'Hamburguerías': 'assets/fotosPlatos/hamburguesa.png',
-        'Postres': 'assets/fotosPlatos/postre.png',
-        'Bebidas': 'assets/fotosPlatos/postre.png',
-    };
-
     cargarDatos(): void {
         forkJoin({
             categorias: this.categoriaService.getAllCategorias(),
             platos: this.platoService.getAllPlatos()
         }).subscribe(({ categorias, platos }) => {
             this.categoriasConPlatos = categorias.map(categoria => {
-                const imgDefecto = this.imagenPorCategoria[categoria.nombre]
-                    ?? 'assets/fotosPlatos/pizza.png';
-
                 return {
                     ...categoria,
                     platos: platos
@@ -60,11 +43,6 @@ export class CartaComponent implements OnInit {
                                 : p.categoria;
                             return catName === categoria.nombre;
                         })
-                        .map(p => ({
-                            ...p,
-                            // Siempre usamos la imagen de la categoría (imagenUrl del backend tiene rutas inválidas)
-                            imagenUrl: imgDefecto
-                        }))
                 };
             });
         });

@@ -35,9 +35,9 @@
                 <div class="card h-100 dish-card shadow-sm border-0 overflow-hidden rounded-4">
                     <!-- Dynamic image or a fallback -->
                     <div class="dish-img-container position-relative bg-light" style="height: 220px; overflow: hidden;">
-                        <img [src]="plato.imagenUrl ? plato.imagenUrl : 'assets/fotosPlatos/pizza.png'"
+                        <img [src]="plato.imagenUrl ? plato.imagenUrl : 'assets/images/platos/pizza.png'"
                             class="w-100 h-100 dish-image" style="object-fit: cover; transition: transform 0.4s ease;"
-                            alt="{{ plato.nombre }}" (error)="$any($event.target).src='assets/fotosPlatos/pizza.png'">
+                            alt="{{ plato.nombre }}" (error)="plato.imagenUrl = null">
                         <div class="position-absolute top-0 end-0 m-3">
                             <span class="badge bg-dark rounded-pill shadow fs-6 px-3 py-2 fw-semibold text-white">
                                 {{ plato.precio | currency:'EUR':'symbol' }}
