@@ -162,27 +162,19 @@
     </div>
 </section>
 
-<!-- ========== TESTIMONIALS ========== -->
+<!-- ========== MAPA ========== -->
 <section class="py-6 bg-light-cream">
     <div class="container">
         <div class="section-header text-center mb-5">
-            <span class="section-label">Opiniones</span>
-            <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+            <span class="section-label">Ubicación</span>
+            <h2 class="section-title">¿Dónde estamos?</h2>
         </div>
-        <div class="row g-4 justify-content-center">
-            <div class="col-md-4" *ngFor="let t of testimonials">
-                <div class="testimonial-card bg-white rounded-4 shadow-sm p-4 h-100 d-flex flex-column">
-                    <div class="mb-3">
-                        <i class="bi bi-star-fill text-warning" *ngFor="let s of getStars(t.rating)"></i>
-                    </div>
-                    <p class="text-muted fst-italic flex-grow-1">"{{ t.text }}"</p>
-                    <div class="d-flex align-items-center mt-3 pt-3 border-top gap-2">
-                        <div
-                            class="avatar-sm bg-restaurant text-white fw-bold rounded-circle d-flex align-items-center justify-content-center">
-                            {{ t.name.charAt(0) }}
-                        </div>
-                        <span class="fw-semibold text-dark">{{ t.name }}</span>
-                    </div>
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="rounded-4 overflow-hidden shadow-sm border border-light" style="height: 450px;">
+                    <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                        src="https://maps.google.com/maps?q=38%C2%B058'49.9%22N%205%C2%B002'38.5%22W&t=&z=16&ie=UTF8&iwloc=&output=embed">
+                    </iframe>
                 </div>
             </div>
         </div>
