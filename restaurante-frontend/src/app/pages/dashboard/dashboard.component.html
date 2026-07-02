@@ -70,20 +70,19 @@
         </div>
         <div class="row g-4 justify-content-center">
             <div class="col-md-4" *ngFor="let dish of featuredDishes">
-                <div class="dish-card bg-white rounded-4 shadow-sm overflow-hidden h-100">
-                    <div class="dish-icon-area d-flex align-items-center justify-content-center">
-                        <i class="bi {{ dish.icon }} display-3 text-restaurant opacity-75"></i>
-                    </div>
-                    <div class="p-4">
-                        <span class="badge-category mb-2">{{ dish.category }}</span>
-                        <h4 class="fw-bold mb-2">{{ dish.name }}</h4>
-                        <p class="text-muted mb-3">{{ dish.description }}</p>
-                        <div class="d-flex align-items-center justify-content-between">
-                            <span class="dish-price fw-bold fs-5 text-restaurant">{{ dish.price }}</span>
-                            <button class="btn btn-outline-restaurant btn-sm rounded-pill px-3">
-                                <i class="bi bi-plus-circle me-1"></i>Añadir
-                            </button>
+                <div class="card h-100 dish-card shadow-sm border-0 overflow-hidden rounded-4">
+                    <div class="dish-img-container position-relative bg-light" style="height: 220px; overflow: hidden;">
+                        <img [src]="dish.imagenUrl ? dish.imagenUrl : 'assets/images/platos/pizza.png'"
+                            class="w-100 h-100 dish-image" style="object-fit: cover; transition: transform 0.4s ease;"
+                            alt="{{ dish.nombre }}" (error)="dish.imagenUrl = null">
+                        <div class="position-absolute top-0 end-0 m-3">
+                            <span class="badge bg-dark rounded-pill shadow fs-6 px-3 py-2 fw-semibold text-white">
+                                {{ dish.precio | currency:'EUR':'symbol' }}
+                            </span>
                         </div>
+                    </div>
+                    <div class="card-body p-4 d-flex flex-column bg-white">
+                        <h5 class="card-title fw-bold text-dark mb-0 fs-5">{{ dish.nombre }}</h5>
                     </div>
                 </div>
             </div>

@@ -1,25 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Plato } from '../../models/plato';
+import { PlatoService } from '../../services/plato.service';
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
 
-    featuredDishes = [
-        { name: 'Risotto de Boletus', category: 'Primeros', description: 'Arroz cremoso con boletus edulis, parmesano y aceite de trufa.', price: '14,90 €', icon: 'bi-egg-fried' },
-        { name: 'Entrecot de Ternera', category: 'Principales', description: 'Entrecot a la parrilla con guarnición de patatas y chimichurri casero.', price: '22,50 €', icon: 'bi-fire' },
-        { name: 'Tarta de Queso', category: 'Postres', description: 'Nuestra famosa tarta de queso vasca, cremosa y con coulomb de frutos rojos.', price: '7,90 €', icon: 'bi-cake2' },
+    private readonly FEATURED_NAMES = [
+        'Patatas bravas',
+        'Espaguetis carbonara',
+        'Entrecot a la parrilla'
     ];
 
-    testimonials = [
-        { name: 'María G.', rating: 5, text: 'Una experiencia gastronómica increíble. El ambiente es perfecto y la comida, simplemente exquisita.' },
-        { name: 'Carlos P.', rating: 5, text: 'El mejor risotto que he probado en años. El servicio es atento y muy profesional. ¡Volveremos sin duda!' },
-        { name: 'Laura M.', rating: 4, text: 'Lugar acogedor con una carta muy variada. Los postres son espectaculares. Muy recomendable.' },
-    ];
+    featuredDishes: Plato[] = [];
 
-    getStars(rating: number): number[] {
-        return Array(rating).fill(0);
+    constructor(private platoService: PlatoService) { }
+
+    ngOnInit(): void {
+        this.platoService.getAllPlatos().subscribe(platos => {
+            this.featuredDishes = platos.filter(p =>
+                this.FEATURED_NAMES.some(name => p.nombre.toLowerCase() === name.toLowerCase())
+            );
+        });
     }
 }
