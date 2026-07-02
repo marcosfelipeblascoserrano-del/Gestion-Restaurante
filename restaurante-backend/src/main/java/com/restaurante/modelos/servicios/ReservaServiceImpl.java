@@ -16,12 +16,16 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ReservaServiceImpl implements IReservaService {
 
     @Autowired
     private ReservaDao reservaDao;
+
+    @Autowired
+    private EmailService emailService;
 
     private static final int TOTAL_MESAS = 15;
 
@@ -50,9 +54,21 @@ public class ReservaServiceImpl implements IReservaService {
         LocalTime hora = LocalTime.parse(dto.getSlot(), DateTimeFormatter.ofPattern("HH:mm"));
         LocalDateTime fechaHora = LocalDateTime.of(dto.getFecha(), hora);
 
-        long reservasActivas = reservaDao.contarReservasActivasEnSlot(fechaHora);
-        if (reservasActivas >= TOTAL_MESAS) {
-            throw new IllegalStateException("No hay mesas disponibles para este slot");
+        long reservasEnTurno = 0;
+        List<EstadoReserva> estados = List.of(EstadoReserva.PENDIENTE, EstadoReserva.CONFIRMADA);
+
+        if (esComida) {
+            LocalDateTime start = LocalDateTime.of(dto.getFecha(), LocalTime.parse("13:00"));
+            LocalDateTime end = LocalDateTime.of(dto.getFecha(), LocalTime.parse("15:30"));
+            reservasEnTurno = reservaDao.contarReservasActivasEnTurno(start, end, estados);
+        } else {
+            LocalDateTime start = LocalDateTime.of(dto.getFecha(), LocalTime.parse("20:00"));
+            LocalDateTime end = LocalDateTime.of(dto.getFecha(), LocalTime.parse("23:30"));
+            reservasEnTurno = reservaDao.contarReservasActivasEnTurno(start, end, estados);
+        }
+
+        if (reservasEnTurno >= TOTAL_MESAS) {
+            throw new IllegalStateException("No hay mesas disponibles para este turno");
         }
 
         Reserva reserva = new Reserva();
@@ -62,8 +78,13 @@ public class ReservaServiceImpl implements IReservaService {
         reserva.setFechaHora(fechaHora);
         reserva.setComensales(dto.getComensales());
         reserva.setEstado(EstadoReserva.PENDIENTE);
+        reserva.setTokenConfirmacion(UUID.randomUUID().toString());
 
-        return reservaDao.save(reserva);
+        reserva = reservaDao.save(reserva);
+
+        emailService.enviarEmailConfirmacion(reserva);
+
+        return reserva;
     }
 
     @Override
@@ -72,20 +93,30 @@ public class ReservaServiceImpl implements IReservaService {
         List<SlotDisponibilidadDTO> disponibilidad = new ArrayList<>();
 
         if (fecha.getDayOfWeek() == DayOfWeek.MONDAY) {
-            return disponibilidad; // Vacío
+            return disponibilidad;
         }
 
-        List<String> todosLosSlots = new ArrayList<>();
-        todosLosSlots.addAll(SLOTS_COMIDA);
-        todosLosSlots.addAll(SLOTS_CENA);
+        List<EstadoReserva> estados = List.of(EstadoReserva.PENDIENTE, EstadoReserva.CONFIRMADA);
 
-        for (String slot : todosLosSlots) {
-            LocalTime hora = LocalTime.parse(slot, DateTimeFormatter.ofPattern("HH:mm"));
-            LocalDateTime fechaHora = LocalDateTime.of(fecha, hora);
-            long activas = reservaDao.contarReservasActivasEnSlot(fechaHora);
-            long libres = TOTAL_MESAS - activas;
-            if (libres > 0) {
-                disponibilidad.add(new SlotDisponibilidadDTO(slot, libres));
+        LocalDateTime startComida = LocalDateTime.of(fecha, LocalTime.parse("13:00"));
+        LocalDateTime endComida = LocalDateTime.of(fecha, LocalTime.parse("15:30"));
+        long activasComida = reservaDao.contarReservasActivasEnTurno(startComida, endComida, estados);
+        long libresComida = TOTAL_MESAS - activasComida;
+
+        if (libresComida > 0) {
+            for (String slot : SLOTS_COMIDA) {
+                disponibilidad.add(new SlotDisponibilidadDTO(slot, libresComida));
+            }
+        }
+
+        LocalDateTime startCena = LocalDateTime.of(fecha, LocalTime.parse("20:00"));
+        LocalDateTime endCena = LocalDateTime.of(fecha, LocalTime.parse("23:30"));
+        long activasCena = reservaDao.contarReservasActivasEnTurno(startCena, endCena, estados);
+        long libresCena = TOTAL_MESAS - activasCena;
+
+        if (libresCena > 0) {
+            for (String slot : SLOTS_CENA) {
+                disponibilidad.add(new SlotDisponibilidadDTO(slot, libresCena));
             }
         }
 
@@ -105,5 +136,25 @@ public class ReservaServiceImpl implements IReservaService {
                 .orElseThrow(() -> new IllegalArgumentException("Reserva no encontrada"));
         reserva.setEstado(EstadoReserva.valueOf(estadoStr.toUpperCase()));
         return reservaDao.save(reserva);
+    }
+
+    @Override
+    @Transactional
+    public Reserva confirmarReserva(String token) {
+        Reserva reserva = reservaDao.findByTokenConfirmacion(token)
+                .orElseThrow(() -> new IllegalArgumentException("Token inválido o reserva no existe"));
+        if (reserva.getEstado() == EstadoReserva.PENDIENTE) {
+            reserva.setEstado(EstadoReserva.CONFIRMADA);
+            return reservaDao.save(reserva);
+        } else {
+            throw new IllegalStateException("La reserva ya fue confirmada o cancelada");
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Reserva getReservaPorToken(String token) {
+        return reservaDao.findByTokenConfirmacion(token)
+                .orElseThrow(() -> new IllegalArgumentException("Token inválido o reserva no existe"));
     }
 }

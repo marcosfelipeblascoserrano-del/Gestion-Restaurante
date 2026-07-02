@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Plato } from 'src/app/models/plato';
-import { PlatoService } from 'src/app/services/plato.service';
-import { ReservaRequest, SlotDisponibilidad } from 'src/app/models/reserva';
-import { ReservaService } from 'src/app/services/reserva.service';
+import { Plato } from '../../models/plato';
+import { PlatoService } from '../../services/plato.service';
+import { ReservaRequest, SlotDisponibilidad } from '../../models/reserva';
+import { ReservaService } from '../../services/reserva.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -41,6 +41,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     minDate: string = '';
     reservaExitosa: boolean = false;
     errorReserva: string = '';
+    lastSubmittedEmail: string = '';
+
+    // --- Calendario ---
+    currentMonthDate: Date = new Date();
+    calendarWeeks: { date: Date | null, disabled: boolean }[][] = [];
+
 
     constructor(
         private platoService: PlatoService,
@@ -60,6 +66,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 this.FEATURED_NAMES.some(name => p.nombre.toLowerCase() === name.toLowerCase())
             );
         });
+
+        this.generateCalendar();
     }
 
     ngOnDestroy(): void {
@@ -108,18 +116,84 @@ export class DashboardComponent implements OnInit, OnDestroy {
     enviarReserva(): void {
         this.errorReserva = '';
         this.reservaExitosa = false;
+        this.lastSubmittedEmail = this.reserva.email;
 
         this.reservaService.crearReserva(this.reserva).subscribe({
             next: () => {
                 this.reservaExitosa = true;
                 this.reserva = { nombre: '', email: '', telefono: '', fecha: '', slot: '', comensales: 2 };
                 this.slotsDisponibles = [];
-                setTimeout(() => this.reservaExitosa = false, 5000);
+                setTimeout(() => this.reservaExitosa = false, 8000);
             },
             error: (err) => {
                 this.errorReserva = err.error?.error || 'Ocurrió un error al procesar tu reserva.';
                 setTimeout(() => this.errorReserva = '', 5000);
             }
         });
+    }
+
+    get slotsComida(): SlotDisponibilidad[] {
+        return this.slotsDisponibles.filter(s => {
+            const hour = parseInt(s.slot.split(':')[0], 10);
+            return hour < 18; // Hasta las 18:00 se considera comida
+        });
+    }
+
+    get slotsCena(): SlotDisponibilidad[] {
+        return this.slotsDisponibles.filter(s => {
+            const hour = parseInt(s.slot.split(':')[0], 10);
+            return hour >= 18; // Desde las 18:00 se considera cena
+        });
+    }
+
+    generateCalendar(): void {
+        const year = this.currentMonthDate.getFullYear();
+        const month = this.currentMonthDate.getMonth();
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+
+        this.calendarWeeks = [];
+        let currentWeek: { date: Date | null, disabled: boolean }[] = [];
+
+        let startingDayOfWeek = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
+
+        for (let i = 0; i < startingDayOfWeek; i++) {
+            currentWeek.push({ date: null, disabled: true });
+        }
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        for (let day = 1; day <= lastDay.getDate(); day++) {
+            const date = new Date(year, month, day);
+            const disabled = date < today || date.getDay() === 1;
+            currentWeek.push({ date, disabled });
+
+            if (currentWeek.length === 7) {
+                this.calendarWeeks.push(currentWeek);
+                currentWeek = [];
+            }
+        }
+
+        if (currentWeek.length > 0) {
+            while (currentWeek.length < 7) {
+                currentWeek.push({ date: null, disabled: true });
+            }
+            this.calendarWeeks.push(currentWeek);
+        }
+    }
+
+    changeMonth(offset: number): void {
+        this.currentMonthDate.setMonth(this.currentMonthDate.getMonth() + offset);
+        this.generateCalendar();
+    }
+
+    selectDate(dateObj: Date): void {
+        const year = dateObj.getFullYear();
+        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const day = String(dateObj.getDate()).padStart(2, '0');
+
+        this.reserva.fecha = `${year}-${month}-${day}`;
+        this.onFechaChange();
     }
 }

@@ -11,6 +11,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CartaComponent } from './pages/carta/carta.component';
 import { PlatoService } from './services/plato.service';
 import { IngredientesModalComponent } from './components/ingredientes-modal/ingredientes-modal.component';
+import { ConfirmarReservaComponent } from './pages/confirmar-reserva/confirmar-reserva.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { IngredientesModalComponent } from './components/ingredientes-modal/ingr
     NavbarComponent,
     DashboardComponent,
     CartaComponent,
-    IngredientesModalComponent
+    IngredientesModalComponent,
+    ConfirmarReservaComponent
   ],
   imports: [
     BrowserModule,
