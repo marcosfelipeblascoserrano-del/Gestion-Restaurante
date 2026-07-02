@@ -1,13 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { ReservaRequest, SlotDisponibilidad } from '../../models/reserva';
-import { ReservaService } from '../../services/reserva.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ReservaRequest, SlotDisponibilidad } from 'src/app/models/reserva';
+import { ReservaService } from 'src/app/services/reserva.service';
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
+
+    bgImages: string[] = [
+        '/assets/images/fondos/fondo-dashboard.jpg',
+        '/assets/images/fondos/fondo-dashboard2.jpg',
+        '/assets/images/fondos/fondo-dashboard3.jpg'
+    ];
+    currentIndex: number = 0;
+    private intervalId: any;
 
     featuredDishes = [
         { name: 'Risotto de Boletus', category: 'Primeros', description: 'Arroz cremoso con boletus edulis, parmesano y aceite de trufa.', price: '14,90 €', icon: 'bi-egg-fried' },
@@ -34,6 +42,26 @@ export class DashboardComponent implements OnInit {
     ngOnInit(): void {
         const today = new Date();
         this.minDate = today.toISOString().split('T')[0];
+
+        this.intervalId = setInterval(() => {
+            this.currentIndex = (this.currentIndex + 1) % this.bgImages.length;
+        }, 2000);
+    }
+
+    ngOnDestroy(): void {
+        if (this.intervalId) {
+            clearInterval(this.intervalId);
+        }
+    }
+
+    getSlideClass(index: number): string {
+        if (index === this.currentIndex) {
+            return 'active';
+        } else if (index === (this.currentIndex - 1 + this.bgImages.length) % this.bgImages.length) {
+            return 'prev';
+        } else {
+            return 'next';
+        }
     }
 
     onFechaChange(): void {
