@@ -1,4 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Plato } from 'src/app/models/plato';
+import { PlatoService } from 'src/app/services/plato.service';
 import { ReservaRequest, SlotDisponibilidad } from 'src/app/models/reserva';
 import { ReservaService } from 'src/app/services/reserva.service';
 
@@ -9,6 +11,7 @@ import { ReservaService } from 'src/app/services/reserva.service';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
 
+    // --- Carrusel ---
     bgImages: string[] = [
         '/assets/images/fondos/fondo-dashboard.jpg',
         '/assets/images/fondos/fondo-dashboard2.jpg',
@@ -17,12 +20,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     currentIndex: number = 0;
     private intervalId: any;
 
-    featuredDishes = [
-        { name: 'Risotto de Boletus', category: 'Primeros', description: 'Arroz cremoso con boletus edulis, parmesano y aceite de trufa.', price: '14,90 €', icon: 'bi-egg-fried' },
-        { name: 'Entrecot de Ternera', category: 'Principales', description: 'Entrecot a la parrilla con guarnición de patatas y chimichurri casero.', price: '22,50 €', icon: 'bi-fire' },
-        { name: 'Tarta de Queso', category: 'Postres', description: 'Nuestra famosa tarta de queso vasca, cremosa y con coulomb de frutos rojos.', price: '7,90 €', icon: 'bi-cake2' },
+    // --- Platos destacados ---
+    private readonly FEATURED_NAMES = [
+        'Patatas bravas',
+        'Espaguetis carbonara',
+        'Entrecot a la parrilla'
     ];
+    featuredDishes: Plato[] = [];
 
+    // --- Reservas ---
     reserva: ReservaRequest = {
         nombre: '',
         email: '',
@@ -31,13 +37,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
         slot: '',
         comensales: 2
     };
-
     slotsDisponibles: SlotDisponibilidad[] = [];
     minDate: string = '';
     reservaExitosa: boolean = false;
     errorReserva: string = '';
 
-    constructor(private reservaService: ReservaService) { }
+    constructor(
+        private platoService: PlatoService,
+        private reservaService: ReservaService
+    ) { }
 
     ngOnInit(): void {
         const today = new Date();
@@ -46,6 +54,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.intervalId = setInterval(() => {
             this.currentIndex = (this.currentIndex + 1) % this.bgImages.length;
         }, 2000);
+
+        this.platoService.getAllPlatos().subscribe(platos => {
+            this.featuredDishes = platos.filter(p =>
+                this.FEATURED_NAMES.some(name => p.nombre.toLowerCase() === name.toLowerCase())
+            );
+        });
     }
 
     ngOnDestroy(): void {
@@ -72,7 +86,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         if (!this.reserva.fecha) return;
 
         const dateObj = new Date(this.reserva.fecha);
-        if (dateObj.getDay() === 1) { // 0=Sun, 1=Mon
+        if (dateObj.getDay() === 1) {
             this.errorReserva = 'Los lunes estamos cerrados. Por favor, elige otro día.';
             return;
         }
@@ -96,9 +110,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.reservaExitosa = false;
 
         this.reservaService.crearReserva(this.reserva).subscribe({
-            next: (res) => {
+            next: () => {
                 this.reservaExitosa = true;
-                // reset form
                 this.reserva = { nombre: '', email: '', telefono: '', fecha: '', slot: '', comensales: 2 };
                 this.slotsDisponibles = [];
                 setTimeout(() => this.reservaExitosa = false, 5000);

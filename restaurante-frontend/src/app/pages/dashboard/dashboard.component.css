@@ -137,35 +137,18 @@
 }
 
 /* ---- Dish cards ---- */
-.dish-icon-area {
-    background: linear-gradient(135deg, #fdf0f0, #f9e8e0);
-    height: 140px;
-}
-
 .dish-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid rgba(0, 0, 0, 0.04);
+    background-color: #fafafa;
 }
 
 .dish-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.12) !important;
 }
 
-.badge-category {
-    display: inline-block;
-    background-color: #fdf0f0;
-    color: #8B1A1A;
-    font-size: 0.72rem;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 50px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.dish-price {
-    font-family: 'Poppins', sans-serif;
+.dish-card:hover .dish-image {
+    transform: scale(1.08);
 }
 
 /* ---- Reservation section ---- */
