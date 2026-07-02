@@ -59,4 +59,28 @@ public class ControladorReserva {
         Reserva actualizada = reservaService.actualizarEstado(id, estado);
         return new ResponseEntity<>(actualizada, HttpStatus.OK);
     }
+
+    @GetMapping("/confirmar")
+    public ResponseEntity<?> confirmarReserva(@RequestParam String token) {
+        try {
+            Reserva reserva = reservaService.confirmarReserva(token);
+            return new ResponseEntity<>(reserva, HttpStatus.OK);
+        } catch (Exception e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("error", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/detalles")
+    public ResponseEntity<?> getReservaPorToken(@RequestParam String token) {
+        try {
+            Reserva reserva = reservaService.getReservaPorToken(token);
+            return new ResponseEntity<>(reserva, HttpStatus.OK);
+        } catch (Exception e) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("error", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
 }

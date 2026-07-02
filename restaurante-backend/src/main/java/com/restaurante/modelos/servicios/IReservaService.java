@@ -15,4 +15,8 @@ public interface IReservaService {
     List<Reserva> listarTodas();
 
     Reserva actualizarEstado(Long id, String estadoStr);
+
+    Reserva confirmarReserva(String token);
+
+    Reserva getReservaPorToken(String token);
 }

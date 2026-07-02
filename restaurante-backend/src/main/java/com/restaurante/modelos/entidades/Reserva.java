@@ -24,6 +24,8 @@ public class Reserva {
 
     private Integer comensales;
 
+    private String tokenConfirmacion;
+
     public Reserva() {
     }
 
@@ -81,5 +83,13 @@ public class Reserva {
 
     public void setComensales(Integer comensales) {
         this.comensales = comensales;
+    }
+
+    public String getTokenConfirmacion() {
+        return tokenConfirmacion;
+    }
+
+    public void setTokenConfirmacion(String tokenConfirmacion) {
+        this.tokenConfirmacion = tokenConfirmacion;
     }
 }

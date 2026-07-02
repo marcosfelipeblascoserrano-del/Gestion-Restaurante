@@ -11,6 +11,9 @@ import java.time.LocalDateTime;
 @Repository
 public interface ReservaDao extends JpaRepository<Reserva, Long> {
 
-    @Query("SELECT COUNT(r) FROM Reserva r WHERE r.fechaHora = :fechaHora AND r.estado IN ('PENDIENTE', 'CONFIRMADA')")
-    long contarReservasActivasEnSlot(@Param("fechaHora") LocalDateTime fechaHora);
+    @Query("SELECT COUNT(r) FROM Reserva r WHERE r.fechaHora >= :start AND r.fechaHora <= :end AND r.estado IN :estados")
+    long contarReservasActivasEnTurno(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end,
+            @Param("estados") java.util.List<com.restaurante.modelos.entidades.EstadoReserva> estados);
+
+    java.util.Optional<Reserva> findByTokenConfirmacion(String tokenConfirmacion);
 }

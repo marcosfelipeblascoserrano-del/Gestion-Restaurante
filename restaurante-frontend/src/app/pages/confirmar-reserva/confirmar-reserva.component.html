@@ -1,0 +1,97 @@
+<section class="py-5 bg-light-cream min-vh-100 d-flex align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card border-0 shadow-lg p-5 rounded-4 bg-white text-center">
+
+                    <div *ngIf="cargando" class="py-5">
+                        <div class="spinner-border text-restaurant" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                        <p class="mt-3 text-muted">Buscando tu reserva...</p>
+                    </div>
+
+                    <div *ngIf="!cargando && errorMensaje && !confirmadaValidamente" class="py-4">
+                        <i class="bi bi-x-circle-fill text-danger fs-1 mb-3 d-block"></i>
+                        <h4 class="fw-bold mb-3">Error</h4>
+                        <p class="text-muted">{{ errorMensaje }}</p>
+                        <a routerLink="/" class="btn btn-outline-secondary mt-3 px-4 rounded-pill">Volver al inicio</a>
+                    </div>
+
+                    <div *ngIf="!cargando && reserva" class="py-2">
+                        <div *ngIf="estadoConfirmacion === 'completada' || confirmadaValidamente"
+                            class="mb-4 text-success fade-in">
+                            <i class="bi bi-check-circle-fill fs-1 d-block mb-2"></i>
+                            <h4 class="fw-bold">¡Reserva Confirmada!</h4>
+                            <p class="text-muted small">Te esperamos en nuestro restaurante.</p>
+                        </div>
+
+                        <div *ngIf="estadoConfirmacion !== 'completada' && !confirmadaValidamente" class="mb-4 fade-in">
+                            <i class="bi bi-calendar2-check text-restaurant fs-1 d-block mb-3"></i>
+                            <h4 class="fw-bold mb-3">Confirma tu Reserva</h4>
+                            <p class="text-muted">Por favor, revisa que los datos sean correctos.</p>
+                        </div>
+
+                        <div class="bg-light rounded-4 p-4 text-start mb-4 fade-in">
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <small class="text-muted text-uppercase fw-semibold"
+                                        style="font-size: 0.75rem;">Nombre</small>
+                                    <p class="fw-medium mb-0 text-dark">{{ reserva.nombre }}</p>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted text-uppercase fw-semibold"
+                                        style="font-size: 0.75rem;">Comensales</small>
+                                    <p class="fw-medium mb-0 text-dark"><i class="bi bi-people-fill me-1"></i>{{
+                                        reserva.comensales }} personas</p>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted text-uppercase fw-semibold"
+                                        style="font-size: 0.75rem;">Fecha</small>
+                                    <p class="fw-medium mb-0 text-dark"><i class="bi bi-calendar me-1"></i>{{
+                                        reserva.fechaHora | date:'dd/MM/yyyy' }}</p>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted text-uppercase fw-semibold"
+                                        style="font-size: 0.75rem;">Hora</small>
+                                    <p class="fw-medium mb-0 text-dark"><i class="bi bi-clock me-1"></i>{{
+                                        reserva.fechaHora | date:'HH:mm' }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="estadoConfirmacion === 'pendiente'">
+                            <button class="btn btn-restaurant w-100 py-3 rounded-pill fw-semibold shadow"
+                                (click)="confirmar()">
+                                Sí, confirmar mi reserva
+                            </button>
+                        </div>
+
+                        <div *ngIf="estadoConfirmacion === 'cargando'">
+                            <button class="btn btn-restaurant w-100 py-3 rounded-pill fw-semibold disabled" disabled>
+                                <span class="spinner-border spinner-border-sm me-2" role="status"
+                                    aria-hidden="true"></span>
+                                Confirmando...
+                            </button>
+                        </div>
+
+                        <div *ngIf="estadoConfirmacion === 'error'" class="mt-3">
+                            <div class="alert alert-danger py-2 px-3 small">{{ errorMensaje }}</div>
+                            <button class="btn btn-restaurant w-100 py-3 rounded-pill fw-semibold shadow mt-2"
+                                (click)="confirmar()">
+                                Intentar de nuevo
+                            </button>
+                        </div>
+
+                        <div *ngIf="estadoConfirmacion === 'completada' || confirmadaValidamente">
+                            <a routerLink="/" class="btn btn-outline-secondary w-100 py-3 rounded-pill fw-semibold">
+                                Volver al inicio
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -19,4 +19,14 @@ export class ReservaService {
     crearReserva(reserva: ReservaRequest): Observable<any> {
         return this.http.post<any>(this.urlEndPoint, reserva);
     }
+
+    confirmarReserva(token: string): Observable<any> {
+        const params = new HttpParams().set('token', token);
+        return this.http.get<any>(`${this.urlEndPoint}/confirmar`, { params });
+    }
+
+    getDetallesReserva(token: string): Observable<any> {
+        const params = new HttpParams().set('token', token);
+        return this.http.get<any>(`${this.urlEndPoint}/detalles`, { params });
+    }
 }

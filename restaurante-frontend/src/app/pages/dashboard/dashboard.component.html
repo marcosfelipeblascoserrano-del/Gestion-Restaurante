@@ -8,8 +8,10 @@
             <div class="toast-body fw-medium fs-6 d-flex align-items-center gap-3 py-3 ps-4">
                 <i class="bi bi-check-circle-fill fs-3 text-white"></i>
                 <div class="lh-sm">
-                    <strong class="d-block mb-1">¡Reserva Confirmada!</strong>
-                    <span class="opacity-75 small">Nos vemos pronto en el restaurante.</span>
+                    <strong class="d-block mb-1">¡Reserva Iniciada!</strong>
+                    <span class="opacity-75 small pb-1 d-block" style="line-height: 1.4;">
+                        Le hemos enviado un email a <b>{{ lastSubmittedEmail }}</b> para confirmar su reserva.
+                    </span>
                 </div>
             </div>
             <button type="button" class="btn-close btn-close-white me-3 m-auto" (click)="reservaExitosa = false"
@@ -198,21 +200,114 @@
                                     Solo se permiten dígitos, espacios, +, o guiones (7-15 caracteres).
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-medium text-dark small">Fecha</label>
-                                <input type="date" class="form-control rounded-3" name="fecha"
-                                    [(ngModel)]="reserva.fecha" [min]="minDate" (change)="onFechaChange()" required
-                                    #fecha="ngModel">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-medium text-dark small">Hora</label>
-                                <select class="form-select rounded-3" name="slot" [(ngModel)]="reserva.slot" required
-                                    [disabled]="!reserva.fecha || slotsDisponibles.length === 0">
-                                    <option value="" disabled selected>Elige una hora</option>
-                                    <option *ngFor="let s of slotsDisponibles" [value]="s.slot">
-                                        {{ s.slot }} ({{ s.mesasLibres }} libres)
-                                    </option>
-                                </select>
+                            <div class="col-md-12">
+                                <label class="form-label fw-medium text-dark small mb-3">Fecha y Hora</label>
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <div class="border rounded-4 p-3 bg-light shadow-sm">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <button type="button"
+                                                    class="btn btn-sm btn-white custom-btn-shadow rounded-circle"
+                                                    (click)="changeMonth(-1)">
+                                                    <i class="bi bi-chevron-left"></i>
+                                                </button>
+                                                <span class="fw-bold text-dark text-capitalize">
+                                                    {{
+                                                    ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'][currentMonthDate.getMonth()]
+                                                    }} {{ currentMonthDate.getFullYear() }}
+                                                </span>
+                                                <button type="button"
+                                                    class="btn btn-sm btn-white custom-btn-shadow rounded-circle"
+                                                    (click)="changeMonth(1)">
+                                                    <i class="bi bi-chevron-right"></i>
+                                                </button>
+                                            </div>
+                                            <div class="d-grid gap-1 text-center"
+                                                style="grid-template-columns: repeat(7, 1fr); font-size: 0.85rem;">
+                                                <div class="text-muted fw-semibold small mb-1">L</div>
+                                                <div class="text-muted fw-semibold small mb-1">M</div>
+                                                <div class="text-muted fw-semibold small mb-1">X</div>
+                                                <div class="text-muted fw-semibold small mb-1">J</div>
+                                                <div class="text-muted fw-semibold small mb-1">V</div>
+                                                <div class="text-muted fw-semibold small mb-1">S</div>
+                                                <div class="text-muted fw-semibold small mb-1">D</div>
+                                                <ng-container *ngFor="let week of calendarWeeks">
+                                                    <ng-container *ngFor="let day of week">
+                                                        <button type="button"
+                                                            class="btn btn-sm p-0 rounded-circle fw-medium position-relative"
+                                                            [ngClass]="{
+                                                                'btn-restaurant text-white shadow': reserva.fecha === (day.date | date:'yyyy-MM-dd'), 
+                                                                'btn-light border': reserva.fecha !== (day.date | date:'yyyy-MM-dd') && day.date, 
+                                                                'opacity-25 text-muted border-0': day.disabled || !day.date
+                                                            }" [disabled]="day.disabled"
+                                                            (click)="day.date && !day.disabled ? selectDate(day.date) : null"
+                                                            style="width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; margin: 0 auto; transition: all 0.2s ease;">
+                                                            {{ day.date ? (day.date | date:'d') : '' }}
+                                                            <span
+                                                                *ngIf="reserva.fecha === (day.date | date:'yyyy-MM-dd')"
+                                                                class="position-absolute bottom-0 start-50 translate-middle-x bg-white rounded-circle"
+                                                                style="width: 4px; height: 4px; margin-bottom: 4px;"></span>
+                                                        </button>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                        <input type="text" class="d-none" name="fecha" [(ngModel)]="reserva.fecha"
+                                            required #fecha="ngModel">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="border rounded-4 p-4 bg-light shadow-sm h-100 d-flex flex-column justify-content-center position-relative transition-opacity"
+                                            [class.opacity-50]="!reserva.fecha" style="transition: opacity 0.3s ease;">
+                                            <div *ngIf="!reserva.fecha" class="text-center text-muted w-100">
+                                                <div class="bg-white rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm mb-3"
+                                                    style="width: 60px; height: 60px;">
+                                                    <i class="bi bi-calendar3 fs-4 text-restaurant"></i>
+                                                </div>
+                                                <p class="mb-0 small fw-medium">Selecciona una fecha</p>
+                                                <p class="small opacity-50 mb-0">para ver los turnos disponibles</p>
+                                            </div>
+                                            <div *ngIf="reserva.fecha" class="w-100 fade-in">
+                                                <div class="mb-4">
+                                                    <h6 class="fw-bold mb-3 d-flex align-items-center text-dark">
+                                                        <i class="bi bi-sun text-warning me-2 fs-5"></i>Turno Comida
+                                                    </h6>
+                                                    <div class="d-flex gap-2 flex-wrap">
+                                                        <button type="button" *ngFor="let s of slotsComida"
+                                                            class="btn btn-sm px-3 rounded-pill fw-medium"
+                                                            [ngClass]="reserva.slot === s.slot ? 'btn-restaurant shadow' : 'btn-white custom-btn-shadow text-dark'"
+                                                            (click)="reserva.slot = s.slot">
+                                                            {{ s.slot }}
+                                                        </button>
+                                                        <div *ngIf="slotsComida.length === 0"
+                                                            class="badge text-bg-danger d-flex align-items-center px-3 rounded-pill py-2 fw-medium">
+                                                            <i class="bi bi-x-circle me-1"></i>Agotado
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <h6 class="fw-bold mb-3 d-flex align-items-center text-dark">
+                                                        <i class="bi bi-moon-stars text-primary me-2 fs-5"></i>Turno
+                                                        Cena
+                                                    </h6>
+                                                    <div class="d-flex gap-2 flex-wrap">
+                                                        <button type="button" *ngFor="let s of slotsCena"
+                                                            class="btn btn-sm px-3 rounded-pill fw-medium"
+                                                            [ngClass]="reserva.slot === s.slot ? 'btn-restaurant shadow' : 'btn-white custom-btn-shadow text-dark'"
+                                                            (click)="reserva.slot = s.slot">
+                                                            {{ s.slot }}
+                                                        </button>
+                                                        <div *ngIf="slotsCena.length === 0"
+                                                            class="badge text-bg-danger d-flex align-items-center px-3 rounded-pill py-2 fw-medium">
+                                                            <i class="bi bi-x-circle me-1"></i>Agotado
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="text" class="d-none" name="slot" [(ngModel)]="reserva.slot"
+                                            required #slot="ngModel">
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-12">
                                 <label class="form-label fw-medium text-dark small">Número de personas</label>
@@ -229,7 +324,7 @@
                                 <button type="submit"
                                     class="btn btn-restaurant w-100 py-3 rounded-3 fw-semibold fs-6 shadow"
                                     [disabled]="!reservaForm.form.valid || !reserva.slot">
-                                    <i class="bi bi-calendar-check me-2"></i>Confirmar Reserva
+                                    <i class="bi bi-calendar-check me-2"></i>Reservar
                                 </button>
                             </div>
                         </div>
