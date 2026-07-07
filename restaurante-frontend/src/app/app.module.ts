@@ -12,6 +12,11 @@ import { CartaComponent } from './pages/carta/carta.component';
 import { PlatoService } from './services/plato.service';
 import { IngredientesModalComponent } from './components/ingredientes-modal/ingredientes-modal.component';
 import { ConfirmarReservaComponent } from './pages/confirmar-reserva/confirmar-reserva.component';
+import { CookieConsentComponent } from './components/cookie-consent/cookie-consent.component';
+import { PoliticaCookiesComponent } from './pages/politica-cookies/politica-cookies.component';
+import { PoliticaPrivacidadComponent } from './pages/politica-privacidad/politica-privacidad.component';
+import { AvisoLegalComponent } from './pages/aviso-legal/aviso-legal.component';
+import { ConfigurarCookiesComponent } from './pages/configurar-cookies/configurar-cookies.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +25,12 @@ import { ConfirmarReservaComponent } from './pages/confirmar-reserva/confirmar-r
     DashboardComponent,
     CartaComponent,
     IngredientesModalComponent,
-    ConfirmarReservaComponent
+    ConfirmarReservaComponent,
+    CookieConsentComponent,
+    PoliticaCookiesComponent,
+    PoliticaPrivacidadComponent,
+    AvisoLegalComponent,
+    ConfigurarCookiesComponent
   ],
   imports: [
     BrowserModule,
