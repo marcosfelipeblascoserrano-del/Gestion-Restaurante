@@ -1,29 +1,278 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+/* ==========================================================================
+   GLOBAL DESIGN SYSTEM
+   Palette: Black & Tan — off-black, white, garnet (#8B1A1A) accent
+   Font: Outfit (loaded via index.html preconnect)
+   ========================================================================== */
 
+/* --------------------------------------------------------------------------
+   1. Custom Easing Tokens
+   -------------------------------------------------------------------------- */
 :root {
-    --primary-restaurant: #8B1A1A;
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+    /* ---------- Colour tokens ---------- */
+    /* Accent — single, locked across whole site */
+    --accent: #8B1A1A;
+    --accent-dark: #6e1414;
+    --accent-light: #b03030;
+
+    /* Surfaces */
+    --surface-0: #ffffff;
+    /* cards, forms */
+    --surface-1: #f5f5f4;
+    /* subtle backgrounds */
+    --surface-dark: #111111;
+    /* footer, dark sections */
+    --surface-dark-2: #1c1c1c;
+    /* dark section variant */
+
+    /* Text */
+    --text-primary: #111111;
+    /* off-black, NOT pure black */
+    --text-secondary: #555555;
+    --text-muted: #888888;
+    --text-on-dark: rgba(255, 255, 255, 0.88);
+    --text-on-dark-2: rgba(255, 255, 255, 0.55);
+
+    /* Borders */
+    --border: rgba(0, 0, 0, 0.08);
+    --border-dark: rgba(255, 255, 255, 0.10);
+
+    /* Shadows — tinted to background hue, no pure-black */
+    --shadow-sm: 0 2px 8px rgba(139, 26, 26, 0.06);
+    --shadow-md: 0 8px 28px rgba(0, 0, 0, 0.09);
+    --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.13);
+
+    /* ---------- Spacing ---------- */
+    --section-gap: 6rem;
+    /* vertical spacing between sections */
+
+    /* ---------- Radii — ONE scale, locked  ---------- */
+    /* Sharp-soft hybrid: cards 16px, inputs 10px, buttons pill(999px) */
+    --radius-card: 16px;
+    --radius-input: 10px;
+    --radius-pill: 999px;
+}
+
+/* --------------------------------------------------------------------------
+   2. Font & Base
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
-    font-family: 'Inter', 'Poppins', sans-serif;
-    min-height: 100vh;
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: var(--surface-0);
     margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* Scrollbar customization */
+/* --------------------------------------------------------------------------
+   3. Typography scale
+   -------------------------------------------------------------------------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Outfit', system-ui, sans-serif;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--text-primary);
+    margin-top: 0;
+}
+
+/* --------------------------------------------------------------------------
+   4. Global Button System (shape-consistency lock: pill CTAs everywhere)
+   -------------------------------------------------------------------------- */
+.btn-restaurant {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    border-radius: var(--radius-pill);
+    letter-spacing: 0.01em;
+    transition:
+        background-color 160ms var(--ease-out),
+        border-color 160ms var(--ease-out),
+        transform 160ms var(--ease-out),
+        box-shadow 160ms var(--ease-out);
+    will-change: transform;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .btn-restaurant:hover {
+        background-color: var(--accent-dark);
+        border-color: var(--accent-dark);
+        color: #fff;
+        box-shadow: var(--shadow-sm);
+    }
+}
+
+.btn-restaurant:active {
+    transform: scale(0.97);
+}
+
+.btn-restaurant:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Outline variant */
+.btn-outline-restaurant {
+    color: var(--accent);
+    border-color: var(--accent);
+    border-radius: var(--radius-pill);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    transition:
+        background-color 160ms var(--ease-out),
+        color 160ms var(--ease-out),
+        transform 160ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .btn-outline-restaurant:hover {
+        background-color: var(--accent);
+        color: #fff;
+    }
+}
+
+.btn-outline-restaurant:active {
+    transform: scale(0.97);
+}
+
+/* Text-colour utility */
+.text-restaurant {
+    color: var(--accent) !important;
+}
+
+/* --------------------------------------------------------------------------
+   5. Form Controls (WCAG AA contrast)
+   -------------------------------------------------------------------------- */
+.form-control,
+.form-select {
+    font-family: 'Outfit', sans-serif;
+    border-radius: var(--radius-input);
+    border-color: rgba(0, 0, 0, 0.15);
+    color: var(--text-primary);
+    transition: border-color 160ms var(--ease-out), box-shadow 160ms var(--ease-out);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(139, 26, 26, 0.14);
+    outline: none;
+}
+
+.form-control::placeholder {
+    color: var(--text-muted);
+}
+
+.form-label {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+}
+
+/* --------------------------------------------------------------------------
+   6. Scrollbar
+   -------------------------------------------------------------------------- */
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
-    border-radius: 4px;
+    background: rgba(139, 26, 26, 0.25);
+    border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
+    background: rgba(139, 26, 26, 0.45);
+}
+
+/* --------------------------------------------------------------------------
+   7. Section-level helpers
+   -------------------------------------------------------------------------- */
+.py-section {
+    padding-top: var(--section-gap);
+    padding-bottom: var(--section-gap);
+}
+
+/* Section label (eyebrow) — restrained: max 1 per 3 sections */
+.section-label {
+    display: block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+}
+
+.section-title {
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    line-height: 1.12;
+}
+
+/* --------------------------------------------------------------------------
+   8. Utility: fade-in entrance
+   -------------------------------------------------------------------------- */
+.fade-in {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: globalFadeIn 420ms var(--ease-out) forwards;
+}
+
+@keyframes globalFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --------------------------------------------------------------------------
+   9. prefers-reduced-motion — global gate
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .fade-in {
+        animation: globalFadeOnly 280ms ease forwards;
+        transform: none;
+    }
+
+    @keyframes globalFadeOnly {
+        to {
+            opacity: 1;
+        }
+    }
+
+    .btn-restaurant:active,
+    .btn-outline-restaurant:active {
+        transform: none;
+    }
 }

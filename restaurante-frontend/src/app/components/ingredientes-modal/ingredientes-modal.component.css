@@ -1,7 +1,99 @@
+/* =========================================================
+   INGREDIENTES MODAL
+   Brand color unified to --accent (#8B1A1A)
+   Stagger for ingredient list items
+   ========================================================= */
+
 .modal-header .modal-title {
-    color: #ff6b35;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 1.2rem;
 }
 
+/* Unify text-primary override */
 .text-primary {
-    color: #ff6b35 !important;
+    color: var(--accent) !important;
+}
+
+/* Sections headers inside modal */
+.modal-body h6.text-secondary {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-muted) !important;
+}
+
+/* ---------- Stagger ingredient list items ---------- */
+.list-group-item {
+    font-family: 'Outfit', sans-serif;
+    opacity: 0;
+    transform: translateY(6px);
+    animation: ingredientReveal 280ms var(--ease-out) forwards;
+}
+
+.list-group-item:nth-child(1) {
+    animation-delay: 30ms;
+}
+
+.list-group-item:nth-child(2) {
+    animation-delay: 65ms;
+}
+
+.list-group-item:nth-child(3) {
+    animation-delay: 100ms;
+}
+
+.list-group-item:nth-child(4) {
+    animation-delay: 135ms;
+}
+
+.list-group-item:nth-child(5) {
+    animation-delay: 170ms;
+}
+
+.list-group-item:nth-child(6) {
+    animation-delay: 205ms;
+}
+
+.list-group-item:nth-child(n+7) {
+    animation-delay: 240ms;
+}
+
+@keyframes ingredientReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- Allergen badges ---------- */
+.badge.bg-warning {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    border-radius: var(--radius-pill) !important;
+}
+
+/* ---------- Close button ---------- */
+.modal-footer .btn-secondary {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    border-radius: var(--radius-pill);
+    transition: transform 150ms var(--ease-out);
+}
+
+.modal-footer .btn-secondary:active {
+    transform: scale(0.97);
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .list-group-item {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
 }

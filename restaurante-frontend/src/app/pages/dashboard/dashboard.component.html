@@ -3,7 +3,7 @@
     <!-- Éxito -->
     <div class="toast align-items-center text-bg-success border-0 shadow-lg fade" [class.show]="reservaExitosa"
         role="alert" aria-live="assertive" aria-atomic="true"
-        style="min-width: 330px; transition: opacity 0.4s ease-in-out; border-radius: 12px;">
+        style="min-width: 330px; border-radius: var(--radius-card);">
         <div class="d-flex">
             <div class="toast-body fw-medium fs-6 d-flex align-items-center gap-3 py-3 ps-4">
                 <i class="bi bi-check-circle-fill fs-3 text-white"></i>
@@ -22,7 +22,7 @@
     <!-- Error -->
     <div class="toast align-items-center text-bg-danger border-0 shadow-lg fade mt-3" [class.show]="errorReserva"
         role="alert" aria-live="assertive" aria-atomic="true"
-        style="min-width: 330px; transition: opacity 0.4s ease-in-out; border-radius: 12px;">
+        style="min-width: 330px; border-radius: var(--radius-card);">
         <div class="d-flex">
             <div class="toast-body fw-medium fs-6 d-flex align-items-center gap-3 py-3 ps-4">
                 <i class="bi bi-exclamation-octagon-fill fs-3 text-white"></i>
@@ -45,18 +45,22 @@
     <div class="hero-overlay position-absolute inset-0"></div>
     <div class="position-relative px-3" style="z-index: 20;">
         <p class="hero-tagline text-uppercase letter-spacing mb-3">Gestión Restaurante</p>
-        <h1 class="hero-title display-3 fw-bold mb-4">
+        <h1 class="hero-title display-3 fw-bold mb-4 text-white">
             Cocina de autor<br>con alma tradicional
         </h1>
         <p class="hero-subtitle lead mb-5 mx-auto" style="max-width: 560px;">
             Cada plato es una historia. Ven a descubrir sabores auténticos en un ambiente íntimo y cálido en el corazón
             de la ciudad.
         </p>
-        <div class="d-flex flex-wrap justify-content-center gap-3">
-            <a href="#reserva" class="btn btn-restaurant btn-lg px-5 py-3 rounded-pill fw-semibold shadow">
+        <div class="d-flex flex-wrap justify-content-center gap-3 w-100">
+            <a href="#reserva"
+                class="btn btn-restaurant btn-lg px-5 py-3 rounded-pill fw-semibold shadow d-block d-md-inline-block w-100"
+                style="max-width: 360px;">
                 <i class="bi bi-calendar-check me-2"></i>Reservar Mesa
             </a>
-            <a routerLink="/carta" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill fw-semibold">
+            <a routerLink="/carta"
+                class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill fw-semibold d-block d-md-inline-block w-100"
+                style="max-width: 360px;">
                 <i class="bi bi-book me-2"></i>Ver Carta
             </a>
         </div>
@@ -70,7 +74,7 @@
 <section class="info-strip bg-white shadow-sm py-4">
     <div class="container">
         <div class="row g-3 text-center justify-content-center">
-            <div class="col-sm-4 col-md-3">
+            <div class="col-12 col-sm-4 col-md-3 mb-4 mb-sm-0">
                 <div class="d-flex align-items-center justify-content-center gap-2 text-muted">
                     <i class="bi bi-clock fs-5 text-restaurant"></i>
                     <div class="text-start">
@@ -79,7 +83,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4 col-md-3">
+            <div class="col-12 col-sm-4 col-md-3 mb-4 mb-sm-0">
                 <div class="d-flex align-items-center justify-content-center gap-2 text-muted">
                     <i class="bi bi-geo-alt fs-5 text-restaurant"></i>
                     <div class="text-start">
@@ -88,7 +92,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4 col-md-3">
+            <div class="col-12 col-sm-4 col-md-3">
                 <div class="d-flex align-items-center justify-content-center gap-2 text-muted">
                     <i class="bi bi-telephone fs-5 text-restaurant"></i>
                     <div class="text-start">
@@ -115,8 +119,8 @@
                 <div class="card h-100 dish-card shadow-sm border-0 overflow-hidden rounded-4">
                     <div class="dish-img-container position-relative bg-light" style="height: 220px; overflow: hidden;">
                         <img [src]="dish.imagenUrl ? dish.imagenUrl : 'assets/images/platos/pizza.png'"
-                            class="w-100 h-100 dish-image" style="object-fit: cover; transition: transform 0.4s ease;"
-                            alt="{{ dish.nombre }}" (error)="dish.imagenUrl = ''">
+                            class="w-100 h-100 dish-image" style="object-fit: cover;" alt="{{ dish.nombre }}"
+                            (error)="dish.imagenUrl = ''">
                         <div class="position-absolute top-0 end-0 m-3">
                             <span class="badge bg-dark rounded-pill shadow fs-6 px-3 py-2 fw-semibold text-white">
                                 {{ dish.precio | currency:'EUR':'symbol' }}
@@ -241,7 +245,7 @@
                                                                 'opacity-25 text-muted border-0': day.disabled || !day.date
                                                             }" [disabled]="day.disabled"
                                                             (click)="day.date && !day.disabled ? selectDate(day.date) : null"
-                                                            style="width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; margin: 0 auto; transition: all 0.2s ease;">
+                                                            style="width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
                                                             {{ day.date ? (day.date | date:'d') : '' }}
                                                             <span
                                                                 *ngIf="reserva.fecha === (day.date | date:'yyyy-MM-dd')"
@@ -273,7 +277,7 @@
                                                     </h6>
                                                     <div class="d-flex gap-2 flex-wrap">
                                                         <button type="button" *ngFor="let s of slotsComida"
-                                                            class="btn btn-sm px-3 rounded-pill fw-medium"
+                                                            class="btn btn-sm py-2 px-3 rounded-pill fw-medium"
                                                             [ngClass]="reserva.slot === s.slot ? 'btn-restaurant shadow' : 'btn-white custom-btn-shadow text-dark'"
                                                             (click)="reserva.slot = s.slot">
                                                             {{ s.slot }}
@@ -291,7 +295,7 @@
                                                     </h6>
                                                     <div class="d-flex gap-2 flex-wrap">
                                                         <button type="button" *ngFor="let s of slotsCena"
-                                                            class="btn btn-sm px-3 rounded-pill fw-medium"
+                                                            class="btn btn-sm py-2 px-3 rounded-pill fw-medium"
                                                             [ngClass]="reserva.slot === s.slot ? 'btn-restaurant shadow' : 'btn-white custom-btn-shadow text-dark'"
                                                             (click)="reserva.slot = s.slot">
                                                             {{ s.slot }}
@@ -312,7 +316,7 @@
                             <div class="col-12">
                                 <label class="form-label fw-medium text-dark small">Número de personas</label>
                                 <div class="d-flex gap-2 flex-wrap">
-                                    <button type="button" class="btn rounded-pill px-3 btn-sm guests-btn"
+                                    <button type="button" class="btn rounded-pill px-3 py-2 btn-sm guests-btn"
                                         *ngFor="let n of [1,2,3,4,5,6,7,8]"
                                         [ngClass]="reserva.comensales === n ? 'btn-restaurant' : 'btn-outline-secondary'"
                                         (click)="reserva.comensales = n">

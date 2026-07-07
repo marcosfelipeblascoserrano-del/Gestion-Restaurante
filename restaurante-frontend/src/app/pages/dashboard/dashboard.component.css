@@ -1,60 +1,13 @@
-/* ---- Colour palette ---- */
-.text-restaurant {
-    color: #8B1A1A !important;
-}
+/* =========================================================
+   DASHBOARD / LANDING PAGE
+   Palette: Black & Tan — tokenized from :root in styles.css
+   Radii: cards 16px, buttons pill — locked
+   ========================================================= */
 
-.btn-restaurant {
-    background-color: #8B1A1A;
-    border-color: #8B1A1A;
-    color: #fff;
-}
-
-.btn-restaurant:hover {
-    background-color: #6e1414;
-    border-color: #6e1414;
-    color: #fff;
-}
-
-.btn-outline-restaurant {
-    color: #8B1A1A;
-    border-color: #8B1A1A;
-}
-
-.btn-outline-restaurant:hover {
-    background-color: #8B1A1A;
-    color: #fff;
-}
-
-/* ---- Section helpers ---- */
-.py-6 {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-}
-
-.bg-light-cream {
-    background-color: #fdf7f0;
-}
-
-.section-label {
-    display: block;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-weight: 600;
-    color: #8B1A1A;
-    margin-bottom: 0.5rem;
-}
-
-.section-title {
-    font-size: clamp(1.6rem, 3vw, 2.2rem);
-    font-weight: 700;
-    color: #1a1a1a;
-    margin-bottom: 0.75rem;
-}
-
-/* ---- Hero ---- */
+/* ---------- 1. Hero ---------- */
 .hero-section {
-    min-height: 100vh;
+    min-height: 100dvh;
+    /* safe viewport, no iOS Safari jump */
     position: relative;
 }
 
@@ -70,13 +23,13 @@
 
 .carousel-slide.active {
     transform: translateX(0);
-    transition: transform 0.8s ease-in-out;
+    transition: transform 640ms var(--ease-drawer);
     z-index: 2;
 }
 
 .carousel-slide.prev {
     transform: translateX(-100%);
-    transition: transform 0.8s ease-in-out;
+    transition: transform 640ms var(--ease-drawer);
     z-index: 1;
 }
 
@@ -91,32 +44,38 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(160deg, rgba(0, 0, 0, 0.72) 30%, rgba(139, 26, 26, 0.6) 100%);
+    background: linear-gradient(160deg,
+            rgba(10, 10, 10, 0.75) 20%,
+            rgba(139, 26, 26, 0.50) 100%);
     z-index: 10;
 }
 
 .hero-tagline {
-    font-size: 0.8rem;
-    letter-spacing: 3px;
-    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
     font-weight: 600;
 }
 
-.letter-spacing {
-    letter-spacing: 3px;
-}
-
 .hero-title {
-    line-height: 1.15;
-    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+    font-size: clamp(2.4rem, 6vw, 4.8rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
 }
 
 .hero-subtitle {
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.72);
+    font-weight: 400;
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    max-width: 52ch;
 }
 
+/* Scroll indicator — subtle bounce only */
 .animate-bounce {
-    animation: bounceY 1.6s ease-in-out infinite;
+    animation: bounceY 2s cubic-bezier(0.37, 0, 0.63, 1) infinite;
 }
 
 @keyframes bounceY {
@@ -127,75 +86,153 @@
     }
 
     50% {
-        transform: translateY(8px);
+        transform: translateY(7px);
     }
 }
 
-/* ---- Info strip ---- */
+/* ---------- 2. Info strip ---------- */
 .info-strip {
-    border-bottom: 1px solid #f0e8e8;
+    background: var(--surface-0);
+    border-bottom: 1px solid var(--border);
 }
 
-/* ---- Dish cards ---- */
+/* ---------- 3. Section helpers ---------- */
+.py-6 {
+    padding-top: 5.5rem;
+    padding-bottom: 5.5rem;
+}
+
+.bg-light-cream {
+    background-color: var(--surface-1);
+}
+
+/* ---------- 4. Dish cards (featured section) ---------- */
 .dish-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background-color: #fafafa;
+    border-radius: var(--radius-card);
+    background: var(--surface-0);
+    transition:
+        transform 220ms var(--ease-out),
+        box-shadow 220ms var(--ease-out);
+    /* Entry stagger handled per nth-child below */
+    opacity: 0;
+    transform: translateY(10px);
+    animation: cardReveal 480ms var(--ease-out) forwards;
 }
 
-.dish-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.12) !important;
+.row>div:nth-child(1) .dish-card {
+    animation-delay: 0ms;
 }
 
-.dish-card:hover .dish-image {
-    transform: scale(1.08);
+.row>div:nth-child(2) .dish-card {
+    animation-delay: 55ms;
 }
 
-/* ---- Reservation section ---- */
+.row>div:nth-child(3) .dish-card {
+    animation-delay: 110ms;
+}
+
+.row>div:nth-child(n+4) .dish-card {
+    animation-delay: 165ms;
+}
+
+@keyframes cardReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .dish-card:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--shadow-lg) !important;
+    }
+
+    .dish-card:hover .dish-image {
+        transform: scale(1.06);
+    }
+}
+
+/* ---------- 5. Reservation section  ---------- */
 .reservation-section {
-    background: linear-gradient(135deg, #8B1A1A 0%, #5d1111 100%);
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
 }
 
 .text-white-75 {
     color: rgba(255, 255, 255, 0.75) !important;
 }
 
-.guests-btn {
-    transition: all 0.2s;
+/* reservation form card */
+.reservation-form {
+    border-radius: var(--radius-card);
 }
 
-.guests-btn:hover,
-.guests-btn.active {
-    background-color: #8B1A1A;
-    border-color: #8B1A1A;
+/* Calendar day buttons — shape locked to circle */
+.custom-btn-shadow {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.10);
+}
+
+/* ---------- 6. Guest count buttons ---------- */
+.guests-btn {
+    border-radius: var(--radius-pill);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 500;
+    transition:
+        background-color 150ms var(--ease-out),
+        border-color 150ms var(--ease-out),
+        color 150ms var(--ease-out),
+        transform 150ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .guests-btn:hover {
+        background-color: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+    }
+}
+
+.guests-btn.active,
+.btn-restaurant.active {
+    background-color: var(--accent);
+    border-color: var(--accent);
     color: #fff;
 }
 
-.form-control:focus,
-.form-select:focus {
-    border-color: #8B1A1A;
-    box-shadow: 0 0 0 0.2rem rgba(139, 26, 26, 0.15);
+.guests-btn:active {
+    transform: scale(0.97);
 }
 
-/* ---- Testimonials ---- */
-.testimonial-card {
-    transition: transform 0.3s ease;
-    border: 1px solid rgba(0, 0, 0, 0.04);
-}
-
-.testimonial-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08) !important;
-}
-
-.avatar-sm {
-    width: 38px;
-    height: 38px;
-    font-size: 1rem;
-    flex-shrink: 0;
-}
-
-/* ---- Footer ---- */
+/* ---------- 7. Footer ---------- */
 .footer-section {
-    background: linear-gradient(180deg, #1a0a0a 0%, #0d0404 100%);
+    background: var(--surface-dark);
+    color: var(--text-on-dark);
+}
+
+/* ---------- 8. Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+
+    .carousel-slide.active,
+    .carousel-slide.prev {
+        transition: opacity 280ms ease;
+    }
+
+    .carousel-slide.active {
+        opacity: 1;
+        transform: none;
+    }
+
+    .carousel-slide.prev {
+        opacity: 0;
+        transform: none;
+    }
+
+    .dish-card {
+        animation: globalFadeOnly 280ms ease forwards;
+        transform: none;
+    }
+
+    .animate-bounce {
+        animation: none;
+    }
 }

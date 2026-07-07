@@ -43,9 +43,9 @@ public class EmailService {
 
             mailSender.send(message);
 
-        } catch (MessagingException e) {
-            e.printStackTrace();
-            System.err.println("Error al enviar el email de confirmación a " + reserva.getEmail());
+        } catch (Exception e) {
+            System.err.println(
+                    "Error al enviar el email de confirmación a " + reserva.getEmail() + ": " + e.getMessage());
         }
     }
 }
