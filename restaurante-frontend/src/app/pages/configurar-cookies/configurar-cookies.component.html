@@ -1,0 +1,69 @@
+<div class="container my-5 pb-5">
+    <div class="row pt-5">
+        <div class="col-md-8 mx-auto">
+            <h2 class="mb-4">Configuración de Cookies</h2>
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 p-md-5">
+                    <p class="mb-4">
+                        Utilizamos cookies para garantizar el buen funcionamiento del sitio web y, si nos das tu
+                        consentimiento,
+                        para adaptar el contenido y realizar análisis estadísticos.
+                    </p>
+
+                    <div class="list-group list-group-flush mb-4">
+                        <div
+                            class="list-group-item px-0 py-3 d-flex justify-content-between align-items-center border-bottom">
+                            <div>
+                                <h6 class="mb-1 text-dark">Cookies Necesarias</h6>
+                                <p class="mb-0 small text-muted">
+                                    Son esenciales para que la web funcione correctamente (ej. recordar tus ajustes de
+                                    privacidad).
+                                    No pueden ser desactivadas en nuestros sistemas.
+                                </p>
+                            </div>
+                            <div class="ms-3 form-check form-switch fs-4">
+                                <input class="form-check-input" type="checkbox" checked disabled>
+                            </div>
+                        </div>
+
+                        <div
+                            class="list-group-item px-0 py-3 d-flex justify-content-between align-items-center border-bottom">
+                            <div>
+                                <h6 class="mb-1 text-dark">Cookies Analíticas</h6>
+                                <p class="mb-0 small text-muted">
+                                    Permiten realizar un seguimiento y análisis de los usuarios del sitio web para
+                                    mejoras basadas
+                                    en el análisis de uso.
+                                </p>
+                            </div>
+                            <div class="ms-3 form-check form-switch fs-4">
+                                <input class="form-check-input" type="checkbox" [(ngModel)]="analyticsCookies"
+                                    id="analyticsSwitch">
+                            </div>
+                        </div>
+
+                        <div class="list-group-item px-0 py-3 d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1 text-dark">Cookies de Marketing</h6>
+                                <p class="mb-0 small text-muted">
+                                    Se utilizan para rastrear a los visitantes a través de las páginas web. La intención
+                                    es mostrar
+                                    anuncios relevantes para el usuario.
+                                </p>
+                            </div>
+                            <div class="ms-3 form-check form-switch fs-4">
+                                <input class="form-check-input" type="checkbox" [(ngModel)]="marketingCookies"
+                                    id="marketingSwitch">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between flex-wrap gap-2">
+                        <button class="btn btn-outline-secondary" routerLink="/politica-cookies">Ver Política</button>
+                        <button class="btn btn-primary" (click)="savePreferences()">Guardar Preferencias</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

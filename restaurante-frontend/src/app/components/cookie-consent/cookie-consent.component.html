@@ -1,0 +1,26 @@
+<div *ngIf="showBanner" class="cookie-banner-container bg-dark text-white p-4 shadow-lg">
+    <div class="row align-items-center">
+        <div class="col-md-8 mb-3 mb-md-0">
+            <h5 class="mb-2">Aviso de Cookies</h5>
+            <p class="mb-0 small">
+                Utilizamos cookies propias y de terceros para mejorar la experiencia de navegación,
+                analizar el uso del sitio y personalizar contenido. Puedes aceptar todas las cookies,
+                rechazarlas o configurarlas.
+            </p>
+        </div>
+        <div class="col-md-4 text-md-end d-flex flex-column flex-md-row gap-2 justify-content-end">
+            <button class="btn btn-outline-light btn-sm" routerLink="/configurar-cookies">Configurar</button>
+            <button class="btn btn-light btn-sm fw-bold text-dark" (click)="rejectCookies()">Rechazar</button>
+            <button class="btn btn-primary btn-sm fw-bold" (click)="acceptCookies()">Aceptar</button>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-12 text-center text-md-start">
+            <a routerLink="/politica-cookies" class="text-white-50 small text-decoration-underline me-3">Política de
+                Cookies</a>
+            <a routerLink="/politica-privacidad" class="text-white-50 small text-decoration-underline me-3">Política de
+                Privacidad</a>
+            <a routerLink="/aviso-legal" class="text-white-50 small text-decoration-underline">Aviso Legal</a>
+        </div>
+    </div>
+</div>

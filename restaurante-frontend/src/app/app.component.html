@@ -1,2 +1,21 @@
 <app-navbar></app-navbar>
-<router-outlet></router-outlet>
+
+<main class="flex-shrink-0 min-vh-100">
+    <router-outlet></router-outlet>
+</main>
+
+<footer class="footer mt-auto py-4 bg-dark text-white-50">
+    <div class="container text-center">
+        <p class="mb-2">© 2026 Tu Restaurante. Todos los derechos reservados.</p>
+        <div>
+            <a routerLink="/politica-cookies" class="text-white-50 text-decoration-none me-3">Política de Cookies</a>
+            <a routerLink="/politica-privacidad" class="text-white-50 text-decoration-none me-3">Política de
+                Privacidad</a>
+            <a routerLink="/aviso-legal" class="text-white-50 text-decoration-none me-3">Aviso Legal</a>
+            <!-- Puede estar repetido pero el usuario pidió esto en el pie de página -->
+            <a routerLink="/configurar-cookies" class="text-white-50 text-decoration-none">Configurar Cookies</a>
+        </div>
+    </div>
+</footer>
+
+<app-cookie-consent></app-cookie-consent>
