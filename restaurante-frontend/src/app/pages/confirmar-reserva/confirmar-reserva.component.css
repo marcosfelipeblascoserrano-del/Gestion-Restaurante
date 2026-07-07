@@ -1,0 +1,96 @@
+/* =========================================================
+   CONFIRMAR RESERVA PAGE
+   Tokens from :root in styles.css
+   ========================================================= */
+
+/* ---------- 1. Page background ---------- */
+section.min-vh-100 {
+    background-color: var(--surface-1);
+}
+
+/* ---------- 2. Card ---------- */
+.card.border-0 {
+    border-radius: var(--radius-card) !important;
+    box-shadow: var(--shadow-lg) !important;
+    background: var(--surface-0);
+}
+
+/* ---------- 3. Content reveal ---------- */
+.fade-in {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: confirmReveal 420ms var(--ease-out) forwards;
+}
+
+@keyframes confirmReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- 4. Confirmation detail grid ---------- */
+.bg-light.rounded-4 {
+    background-color: var(--surface-1) !important;
+    border-radius: var(--radius-card) !important;
+}
+
+.bg-light.rounded-4 small {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.bg-light.rounded-4 p {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+/* ---------- 5. Spinner branded ---------- */
+.spinner-border.text-restaurant {
+    color: var(--accent) !important;
+}
+
+/* ---------- 6. "Reserva confirmada" success state ---------- */
+.text-success.fade-in i {
+    color: #16a34a;
+}
+
+/* ---------- 7. Button overrides ---------- */
+.btn-restaurant {
+    border-radius: var(--radius-pill);
+}
+
+.btn-restaurant:active {
+    transform: scale(0.97);
+}
+
+/* "Volver al inicio" secondary button */
+.btn-outline-secondary {
+    border-radius: var(--radius-pill);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    transition: transform 150ms var(--ease-out);
+}
+
+.btn-outline-secondary:active {
+    transform: scale(0.97);
+}
+
+/* ---------- 8. Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .fade-in {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+
+    .btn-restaurant:active,
+    .btn-outline-secondary:active {
+        transform: none;
+    }
+}

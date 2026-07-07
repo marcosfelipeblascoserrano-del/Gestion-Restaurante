@@ -1,18 +1,67 @@
+/* =========================================================
+   NAVBAR — glassmorphism on dark hero, opaque on scroll
+   Shape: pill CTAs, clean nav links
+   ========================================================= */
+
+nav.navbar {
+  font-family: 'Outfit', sans-serif;
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
+  /* height cap: ~64px at desktop */
+  backdrop-filter: blur(0px);
+  transition: backdrop-filter 300ms var(--ease-out), background-color 300ms var(--ease-out);
+}
+
+/* Scrolled state — controlled via JS by adding .scrolled class */
+nav.navbar.scrolled {
+  backdrop-filter: blur(12px);
+  background-color: rgba(17, 17, 17, 0.82) !important;
+  border-bottom: 1px solid var(--border-dark);
+}
+
+/* Nav links */
 .nav-hover {
-  transition: all 0.25s;
-  color: rgba(255, 255, 255, 0.85) !important;
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.80) !important;
+  border-radius: 6px;
+  transition:
+    background-color 140ms var(--ease-out),
+    color 140ms var(--ease-out);
 }
 
-.nav-hover:hover {
-  background-color: rgba(255, 255, 255, 0.12);
-  color: #fff !important;
+@media (hover: hover) and (pointer: fine) {
+  .nav-hover:hover {
+    background-color: rgba(255, 255, 255, 0.10);
+    color: #fff !important;
+  }
 }
 
+/* CTA button in nav */
 .nav-cta {
-  transition: all 0.25s;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid rgba(255, 255, 255, 0.65);
+  color: #fff !important;
+  letter-spacing: 0.02em;
+  transition:
+    background-color 160ms var(--ease-out),
+    border-color 160ms var(--ease-out),
+    color 160ms var(--ease-out),
+    transform 160ms var(--ease-out);
 }
 
-.nav-cta:hover {
-  background-color: #fff;
-  color: #8B1A1A !important;
+@media (hover: hover) and (pointer: fine) {
+  .nav-cta:hover {
+    background-color: #fff;
+    border-color: #fff;
+    color: var(--accent) !important;
+  }
+}
+
+.nav-cta:active {
+  transform: scale(0.97);
 }

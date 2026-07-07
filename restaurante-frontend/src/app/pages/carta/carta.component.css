@@ -1,63 +1,88 @@
+/* =========================================================
+   CARTA (MENU PAGE)
+   Tokens from :root in styles.css
+   ========================================================= */
+
+/* ---------- 1. Hero ---------- */
 .menu-hero {
-    background: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
+    background: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1500&q=80') center / cover no-repeat;
 }
 
 .hero-overlay {
-    background: linear-gradient(160deg, rgba(0, 0, 0, 0.72) 30%, rgba(139, 26, 26, 0.6) 100%);
+    background: linear-gradient(160deg,
+            rgba(10, 10, 10, 0.78) 25%,
+            rgba(139, 26, 26, 0.52) 100%);
 }
 
+/* ---------- 2. Container ---------- */
 .carta-container {
-    min-height: 100vh;
+    min-height: 60vh;
 }
 
-.dish-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background-color: #fafafa;
-}
-
-.dish-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
-}
-
-.text-primary {
-    color: #ff6b35 !important;
-}
-
-.bg-primary {
-    background-color: #ff6b35 !important;
-}
-
+/* ---------- 3. Category header ---------- */
 .category-header {
-    border-bottom: 2px solid #ff6b35 !important;
+    border-bottom: 2px solid var(--accent) !important;
 }
 
-.text-white-75 {
-    color: rgba(255, 255, 255, 0.75) !important;
+.category-header h2 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
 }
 
-/* Scroll styles */
+/* ---------- 4. Scroll strip ---------- */
 .scroll-container {
     overflow-x: auto;
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
-    /* Firefox */
-    /* Clip so exactly ~3 cards are shown by default */
+    /* Show roughly 3 cards */
     max-width: calc(3 * 320px + 2 * 1.5rem);
 }
 
 .scroll-container::-webkit-scrollbar {
     display: none;
-    /* Chrome/Safari */
 }
 
+/* ---------- 5. Dish wrappers (scroll cards) ---------- */
 .dish-wrapper {
-    /* Responsive sizing logic instead of hardcoded 320px */
     flex: 0 0 calc(50% - 0.75rem);
     scroll-snap-align: start;
     min-width: 280px;
     max-width: 320px;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: dishReveal 400ms var(--ease-out) forwards;
+}
+
+.dish-wrapper:nth-child(1) {
+    animation-delay: 0ms;
+}
+
+.dish-wrapper:nth-child(2) {
+    animation-delay: 45ms;
+}
+
+.dish-wrapper:nth-child(3) {
+    animation-delay: 90ms;
+}
+
+.dish-wrapper:nth-child(4) {
+    animation-delay: 135ms;
+}
+
+.dish-wrapper:nth-child(5) {
+    animation-delay: 180ms;
+}
+
+.dish-wrapper:nth-child(n+6) {
+    animation-delay: 220ms;
+}
+
+@keyframes dishReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @media (max-width: 768px) {
@@ -67,50 +92,102 @@
     }
 }
 
-.dish-card:hover .dish-image {
-    transform: scale(1.1) !important;
+/* ---------- 6. Dish cards ---------- */
+.dish-card {
+    border-radius: var(--radius-card);
+    background: var(--surface-0);
+    transition:
+        transform 220ms var(--ease-out),
+        box-shadow 220ms var(--ease-out);
 }
 
+@media (hover: hover) and (pointer: fine) {
+    .dish-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg) !important;
+    }
+
+    .dish-card:hover .dish-image {
+        transform: scale(1.08) !important;
+    }
+}
+
+/* ---------- 7. Scroll buttons ---------- */
 .btn-outline-scroll {
-    color: #ff6b35;
-    border: 1px solid #ff6b35;
-    width: 40px;
-    height: 40px;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s;
     background: transparent;
+    transition:
+        background-color 150ms var(--ease-out),
+        color 150ms var(--ease-out),
+        transform 150ms var(--ease-out);
 }
 
-.btn-outline-scroll:hover {
-    background-color: #ff6b35;
-    color: white;
+@media (hover: hover) and (pointer: fine) {
+    .btn-outline-scroll:hover {
+        background-color: var(--accent);
+        color: #fff;
+    }
 }
 
-/* Hover overlay */
+.btn-outline-scroll:active {
+    transform: scale(0.95);
+}
+
+/* ---------- 8. Hover reveal overlay ---------- */
 .dish-img-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.55);
+    background: rgba(10, 10, 10, 0.58);
     opacity: 0;
-    transition: opacity 0.35s ease;
+    transition: opacity 180ms var(--ease-out);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: white;
+    color: #fff;
     gap: 6px;
 }
 
-.dish-card:hover .dish-img-overlay {
-    opacity: 1;
+@media (hover: hover) and (pointer: fine) {
+    .dish-card:hover .dish-img-overlay {
+        opacity: 1;
+    }
 }
 
 .dish-img-overlay span {
-    font-size: 0.95rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
     font-weight: 600;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
+}
+
+/* ---------- 9. Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .dish-card {
+        transition: box-shadow 200ms ease;
+    }
+
+    .dish-wrapper {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+
+    .btn-outline-scroll:active,
+    .dish-card:hover {
+        transform: none;
+    }
+
+    .dish-img-overlay {
+        transition: opacity 200ms ease;
+    }
 }

@@ -32,27 +32,31 @@
 
         <div class="scroll-container d-flex gap-4 pb-4" #scroller>
             <div *ngFor="let plato of categoria.platos" class="dish-wrapper flex-shrink-0">
-                <div class="card h-100 dish-card shadow-sm border-0 overflow-hidden rounded-4">
+                <div class="card h-100 dish-card shadow-sm border-0 overflow-hidden rounded-4 cursor-pointer"
+                    style="cursor: pointer;" (click)="seleccionarPlato(plato)" data-bs-toggle="modal"
+                    data-bs-target="#ingredientesModal">
                     <!-- Dynamic image or a fallback -->
                     <div class="dish-img-container position-relative bg-light" style="height: 220px; overflow: hidden;">
                         <img [src]="plato.imagenUrl ? plato.imagenUrl : 'assets/images/platos/pizza.png'"
-                            class="w-100 h-100 dish-image" style="object-fit: cover; transition: transform 0.4s ease;"
-                            alt="{{ plato.nombre }}" (error)="plato.imagenUrl = null">
+                            class="w-100 h-100 dish-image" style="object-fit: cover;" alt="{{ plato.nombre }}"
+                            (error)="plato.imagenUrl = null">
                         <div class="position-absolute top-0 end-0 m-3">
                             <span class="badge bg-dark rounded-pill shadow fs-6 px-3 py-2 fw-semibold text-white">
                                 {{ plato.precio | currency:'EUR':'symbol' }}
                             </span>
                         </div>
 
-                        <!-- Hover overlay -->
-                        <div class="dish-img-overlay" (click)="seleccionarPlato(plato)" data-bs-toggle="modal"
-                            data-bs-target="#ingredientesModal">
+                        <!-- Hover overlay (desktop only, pointer fine ignores touch clicks properly) -->
+                        <div class="dish-img-overlay d-none d-md-flex">
                             <i class="bi bi-eye fs-3"></i>
                             <span>Ver ingredientes</span>
                         </div>
                     </div>
-                    <div class="card-body p-4 d-flex flex-column bg-white">
+                    <div class="card-body p-4 d-flex flex-column bg-white justify-content-between">
                         <h5 class="card-title fw-bold text-dark mb-2 fs-5">{{ plato.nombre }}</h5>
+                        <p class="text-restaurant fw-semibold mb-0 fs-6 d-md-none mt-2">
+                            <i class="bi bi-info-circle me-1"></i>Ver componentes
+                        </p>
                     </div>
                 </div>
             </div>
