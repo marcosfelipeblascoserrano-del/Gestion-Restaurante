@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Plato } from '../../models/plato';
 import { PlatoService } from '../../services/plato.service';
 import { ReservaRequest, SlotDisponibilidad } from '../../models/reserva';
 import { ReservaService } from '../../services/reserva.service';
+import { SeoService } from '../../services/seo.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -42,6 +43,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     reservaExitosa: boolean = false;
     errorReserva: string = '';
     lastSubmittedEmail: string = '';
+    isSubmitting: boolean = false;
 
     // --- Calendario ---
     currentMonthDate: Date = new Date();
@@ -50,10 +52,46 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     constructor(
         private platoService: PlatoService,
-        private reservaService: ReservaService
+        private reservaService: ReservaService,
+        private seoService: SeoService,
+        private cdr: ChangeDetectorRef
     ) { }
 
     ngOnInit(): void {
+        this.seoService.updateTitle('La Belle Époque - Cocina de autor en Madrid');
+        this.seoService.updateMeta(
+            'Restaurante de cocina de autor con alma tradicional en el corazón de Madrid. Reserva tu mesa online y descubre nuestra propuesta gastronómica.',
+            'La Belle Époque - Cocina de autor',
+            'https://www.labelleepoque.es/logo.jpg'
+        );
+        this.seoService.setStructuredData({
+            "@context": "https://schema.org",
+            "@type": "Restaurant",
+            "name": "La Belle Époque",
+            "image": "https://www.labelleepoque.es/logo.jpg",
+            "url": "https://www.labelleepoque.es/",
+            "telephone": "+34910000000",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Calle Principal, 12",
+                "addressLocality": "Madrid",
+                "postalCode": "28001",
+                "addressCountry": "ES"
+            },
+            "servesCuisine": "Cocina de autor",
+            "priceRange": "$$$",
+            "openingHoursSpecification": [
+                {
+                    "@type": "OpeningHoursSpecification",
+                    "dayOfWeek": ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+                    "opens": "13:00",
+                    "closes": "23:00"
+                }
+            ],
+            "menu": "https://www.labelleepoque.es/carta",
+            "hasMap": "https://maps.google.com/maps?q=38°58'49.9\"N%205°02'38.5\"W"
+        });
+
         const today = new Date();
         this.minDate = today.toISOString().split('T')[0];
 
@@ -117,19 +155,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.errorReserva = '';
         this.reservaExitosa = false;
         this.lastSubmittedEmail = this.reserva.email;
+        this.isSubmitting = true;
 
-        this.reservaService.crearReserva(this.reserva).subscribe({
-            next: () => {
-                this.reservaExitosa = true;
-                this.reserva = { nombre: '', email: '', telefono: '', fecha: '', slot: '', comensales: 2 };
-                this.slotsDisponibles = [];
-                setTimeout(() => this.reservaExitosa = false, 8000);
-            },
-            error: (err) => {
-                this.errorReserva = err.error?.error || 'Ocurrió un error al procesar tu reserva.';
-                setTimeout(() => this.errorReserva = '', 5000);
-            }
-        });
+        // setTimeout de 50ms para que el navegador tenga un frame para repintar
+        // el spinner antes de que la llamada HTTP y el email bloqueen el hilo
+        setTimeout(() => {
+            this.reservaService.crearReserva(this.reserva).subscribe({
+                next: () => {
+                    this.isSubmitting = false;
+                    this.reservaExitosa = true;
+                    this.reserva = { nombre: '', email: '', telefono: '', fecha: '', slot: '', comensales: 2 };
+                    this.slotsDisponibles = [];
+                    setTimeout(() => this.reservaExitosa = false, 8000);
+                },
+                error: (err) => {
+                    this.isSubmitting = false;
+                    this.errorReserva = err.error?.error || 'Ocurrió un error al procesar tu reserva.';
+                    setTimeout(() => this.errorReserva = '', 5000);
+                }
+            });
+        }, 50);
     }
 
     get slotsComida(): SlotDisponibilidad[] {

@@ -1,0 +1,16 @@
+{
+  "name": "La Belle Époque",
+  "short_name": "Belle Époque",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a0a00",
+  "theme_color": "#1a0a00",
+  "description": "Restaurante de cocina de autor con alma tradicional en el corazón de Madrid. Reserva tu mesa online.",
+  "icons": [
+    {
+      "src": "logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

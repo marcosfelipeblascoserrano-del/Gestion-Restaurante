@@ -4,6 +4,7 @@ import { CategoriaService } from 'src/app/categoria.service';
 import { Categoria } from 'src/app/models/categoria';
 import { Plato } from 'src/app/models/plato';
 import { PlatoService } from 'src/app/services/plato.service';
+import { SeoService } from 'src/app/services/seo.service';
 
 @Component({
     selector: 'app-carta',
@@ -12,12 +13,22 @@ import { PlatoService } from 'src/app/services/plato.service';
 })
 export class CartaComponent implements OnInit {
 
-    constructor(private categoriaService: CategoriaService, private platoService: PlatoService) { }
+    constructor(
+        private categoriaService: CategoriaService,
+        private platoService: PlatoService,
+        private seoService: SeoService
+    ) { }
 
     categoriasConPlatos: any[] = [];
     platoSeleccionado: Plato | null = null;
 
     ngOnInit(): void {
+        this.seoService.updateTitle('Nuestra Carta - La Belle Époque');
+        this.seoService.updateMeta(
+            'Descubre nuestra selección de platos únicos y de autor. Carnes, pescados, arroces y postres artesanales en pleno Madrid.',
+            'Nuestra Carta - La Belle Époque',
+            'https://www.labelleepoque.es/logo.jpg'
+        );
         this.cargarDatos();
     }
 
@@ -50,6 +61,28 @@ export class CartaComponent implements OnInit {
                         })
                 };
             });
+
+            const menuStructuredData = {
+                "@context": "https://schema.org",
+                "@type": "Menu",
+                "name": "Carta principal La Belle Époque",
+                "hasMenuSection": this.categoriasConPlatos.map(c => ({
+                    "@type": "MenuSection",
+                    "name": c.nombre,
+                    "description": c.descripcion || "",
+                    "hasMenuItem": c.platos.map((p: any) => ({
+                        "@type": "MenuItem",
+                        "name": p.nombre,
+                        "description": p.descripcion || "",
+                        "offers": {
+                            "@type": "Offer",
+                            "price": p.precio,
+                            "priceCurrency": "EUR"
+                        }
+                    }))
+                }))
+            };
+            this.seoService.setStructuredData(menuStructuredData);
         });
     }
 

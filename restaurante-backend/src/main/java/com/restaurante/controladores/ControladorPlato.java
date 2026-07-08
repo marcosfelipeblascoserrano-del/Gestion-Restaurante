@@ -19,8 +19,11 @@ public class ControladorPlato {
     private IPlatoService platoService;
 
     @GetMapping
-    public List<Plato> listar() {
-        return platoService.obtenerPlatos();
+    public ResponseEntity<List<Plato>> listar() {
+        return ResponseEntity.ok()
+                .cacheControl(org.springframework.http.CacheControl.maxAge(1, java.util.concurrent.TimeUnit.HOURS)
+                        .cachePublic())
+                .body(platoService.obtenerPlatos());
     }
 
     @PostMapping
@@ -31,6 +34,9 @@ public class ControladorPlato {
 
     @GetMapping("/{id}/ingredientes")
     public ResponseEntity<List<Ingrediente>> listarIngredientes(@PathVariable Long id) {
-        return new ResponseEntity<>(platoService.obtenerIngredientesPorPlato(id), HttpStatus.OK);
+        return ResponseEntity.ok()
+                .cacheControl(org.springframework.http.CacheControl.maxAge(1, java.util.concurrent.TimeUnit.HOURS)
+                        .cachePublic())
+                .body(platoService.obtenerIngredientesPorPlato(id));
     }
 }

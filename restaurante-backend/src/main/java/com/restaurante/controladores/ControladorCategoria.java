@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -19,7 +20,10 @@ public class ControladorCategoria {
     private ICategoriaService categoriaService;
 
     @GetMapping
-    public List<Categoria> listar() {
-        return categoriaService.obtenerCategorias();
+    public ResponseEntity<List<Categoria>> listar() {
+        return ResponseEntity.ok()
+                .cacheControl(org.springframework.http.CacheControl.maxAge(1, java.util.concurrent.TimeUnit.HOURS)
+                        .cachePublic())
+                .body(categoriaService.obtenerCategorias());
     }
 }
