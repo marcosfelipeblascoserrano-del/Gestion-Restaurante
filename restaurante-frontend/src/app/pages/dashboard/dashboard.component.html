@@ -1,3 +1,12 @@
+<!-- ========== LOADING OVERLAY (CENTRO DE PANTALLA) ========== -->
+<div *ngIf="isSubmitting" class="loading-overlay" role="status" aria-label="Procesando reserva...">
+    <div class="loading-overlay-card">
+        <div class="spinner-border text-light mb-3" style="width: 3.5rem; height: 3.5rem;"></div>
+        <p class="text-white fw-semibold mb-0 fs-5">Procesando tu reserva...</p>
+        <p class="text-white-50 small mb-0 mt-1">Estamos enviando la confirmación por email</p>
+    </div>
+</div>
+
 <!-- ========== NOTIFICACIONES TOAST (ARRIBA IZQUIERDA) ========== -->
 <div class="toast-container position-fixed top-0 start-0 p-4 mt-5" style="z-index: 1055;">
     <!-- Éxito -->
@@ -37,335 +46,347 @@
     </div>
 </div>
 
-<!-- ========== HERO SECTION ========== -->
-<section
-    class="hero-section d-flex align-items-center justify-content-center text-center text-white position-relative overflow-hidden">
-    <div *ngFor="let bg of bgImages; let i = index" class="carousel-slide position-absolute w-100 h-100"
-        [ngClass]="getSlideClass(i)" [style.backgroundImage]="'url(' + bg + ')'"></div>
-    <div class="hero-overlay position-absolute inset-0"></div>
-    <div class="position-relative px-3" style="z-index: 20;">
-        <p class="hero-tagline text-uppercase letter-spacing mb-3">Gestión Restaurante</p>
-        <h1 class="hero-title display-3 fw-bold mb-4 text-white">
-            Cocina de autor<br>con alma tradicional
-        </h1>
-        <p class="hero-subtitle lead mb-5 mx-auto" style="max-width: 560px;">
-            Cada plato es una historia. Ven a descubrir sabores auténticos en un ambiente íntimo y cálido en el corazón
-            de la ciudad.
-        </p>
-        <div class="d-flex flex-wrap justify-content-center gap-3 w-100">
-            <a href="#reserva"
-                class="btn btn-restaurant btn-lg px-5 py-3 rounded-pill fw-semibold shadow d-block d-md-inline-block w-100"
-                style="max-width: 360px;">
-                <i class="bi bi-calendar-check me-2"></i>Reservar Mesa
-            </a>
-            <a routerLink="/carta"
-                class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill fw-semibold d-block d-md-inline-block w-100"
-                style="max-width: 360px;">
-                <i class="bi bi-book me-2"></i>Ver Carta
-            </a>
-        </div>
-    </div>
-    <div class="hero-scroll-indicator position-absolute bottom-0 mb-4" style="z-index: 20;">
-        <i class="bi bi-chevron-double-down fs-4 animate-bounce text-white-50"></i>
-    </div>
-</section>
 
-<!-- ========== INFO STRIP ========== -->
-<section class="info-strip bg-white shadow-sm py-4">
-    <div class="container">
-        <div class="row g-3 text-center justify-content-center">
-            <div class="col-12 col-sm-4 col-md-3 mb-4 mb-sm-0">
-                <div class="d-flex align-items-center justify-content-center gap-2 text-muted">
-                    <i class="bi bi-clock fs-5 text-restaurant"></i>
-                    <div class="text-start">
-                        <div class="fw-semibold text-dark" style="line-height:1.2">Horario</div>
-                        <small>Mar–Dom, 13:00–23:00</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-4 col-md-3 mb-4 mb-sm-0">
-                <div class="d-flex align-items-center justify-content-center gap-2 text-muted">
-                    <i class="bi bi-geo-alt fs-5 text-restaurant"></i>
-                    <div class="text-start">
-                        <div class="fw-semibold text-dark" style="line-height:1.2">Ubicación</div>
-                        <small>Calle Principal, 12 - Madrid</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-sm-4 col-md-3">
-                <div class="d-flex align-items-center justify-content-center gap-2 text-muted">
-                    <i class="bi bi-telephone fs-5 text-restaurant"></i>
-                    <div class="text-start">
-                        <div class="fw-semibold text-dark" style="line-height:1.2">Reservas</div>
-                        <small>+34 910 000 000</small>
-                    </div>
-                </div>
+<main role="main">
+    <!-- ========== HERO SECTION ========== -->
+    <section
+        class="hero-section d-flex align-items-center justify-content-center text-center text-white position-relative overflow-hidden"
+        role="banner">
+        <div *ngFor="let bg of bgImages; let i = index" class="carousel-slide position-absolute w-100 h-100"
+            [ngClass]="getSlideClass(i)" [style.backgroundImage]="'url(' + bg + ')'"></div>
+        <div class="hero-overlay position-absolute inset-0"></div>
+        <div class="position-relative px-3" style="z-index: 20;">
+            <p class="hero-tagline text-uppercase letter-spacing mb-3">Gestión Restaurante</p>
+            <h1 class="hero-title display-3 fw-bold mb-4 text-white">
+                Cocina de autor<br>con alma tradicional
+            </h1>
+            <p class="hero-subtitle lead mb-5 mx-auto" style="max-width: 560px;">
+                Cada plato es una historia. Ven a descubrir sabores auténticos en un ambiente íntimo y cálido en el
+                corazón
+                de la ciudad.
+            </p>
+            <div class="d-flex flex-wrap justify-content-center gap-3 w-100">
+                <a href="#reserva"
+                    class="btn btn-restaurant btn-lg px-5 py-3 rounded-pill fw-semibold shadow d-block d-md-inline-block w-100"
+                    style="max-width: 360px;">
+                    <i class="bi bi-calendar-check me-2"></i>Reservar Mesa
+                </a>
+                <a routerLink="/carta"
+                    class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill fw-semibold d-block d-md-inline-block w-100"
+                    style="max-width: 360px;">
+                    <i class="bi bi-book me-2"></i>Ver Carta
+                </a>
             </div>
         </div>
-    </div>
-</section>
+        <div class="hero-scroll-indicator position-absolute bottom-0 mb-4" style="z-index: 20;">
+            <i class="bi bi-chevron-double-down fs-4 animate-bounce text-white-50"></i>
+        </div>
+    </section>
 
-<!-- ========== FEATURED MENU ========== -->
-<section id="menu" class="py-6 bg-light-cream">
-    <div class="container">
-        <div class="section-header text-center mb-5">
-            <span class="section-label">Nuestra Carta</span>
-            <h2 class="section-title">Platos Destacados</h2>
-            <p class="text-muted mx-auto" style="max-width: 480px;">Una selección de nuestras propuestas más queridas
-                por los comensales.</p>
-        </div>
-        <div class="row g-4 justify-content-center">
-            <div class="col-md-4" *ngFor="let dish of featuredDishes">
-                <div class="card h-100 dish-card shadow-sm border-0 overflow-hidden rounded-4">
-                    <div class="dish-img-container position-relative bg-light" style="height: 220px; overflow: hidden;">
-                        <img [src]="dish.imagenUrl ? dish.imagenUrl : 'assets/images/platos/pizza.png'"
-                            class="w-100 h-100 dish-image" style="object-fit: cover;" alt="{{ dish.nombre }}"
-                            (error)="dish.imagenUrl = ''">
-                        <div class="position-absolute top-0 end-0 m-3">
-                            <span class="badge bg-dark rounded-pill shadow fs-6 px-3 py-2 fw-semibold text-white">
-                                {{ dish.precio | currency:'EUR':'symbol' }}
-                            </span>
+    <!-- ========== INFO STRIP ========== -->
+    <section class="info-strip bg-white shadow-sm py-4">
+        <div class="container">
+            <div class="row g-3 text-center justify-content-center">
+                <div class="col-12 col-sm-4 col-md-3 mb-4 mb-sm-0">
+                    <div class="d-flex align-items-center justify-content-center gap-2 text-muted">
+                        <i class="bi bi-clock fs-5 text-restaurant"></i>
+                        <div class="text-start">
+                            <div class="fw-semibold text-dark" style="line-height:1.2">Horario</div>
+                            <small>Mar–Dom, 13:00–23:00</small>
                         </div>
                     </div>
-                    <div class="card-body p-4 d-flex flex-column bg-white">
-                        <h5 class="card-title fw-bold text-dark mb-0 fs-5">{{ dish.nombre }}</h5>
+                </div>
+                <div class="col-12 col-sm-4 col-md-3 mb-4 mb-sm-0">
+                    <div class="d-flex align-items-center justify-content-center gap-2 text-muted">
+                        <i class="bi bi-geo-alt fs-5 text-restaurant"></i>
+                        <div class="text-start">
+                            <div class="fw-semibold text-dark" style="line-height:1.2">Ubicación</div>
+                            <small>Calle Principal, 12 - Madrid</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-4 col-md-3">
+                    <div class="d-flex align-items-center justify-content-center gap-2 text-muted">
+                        <i class="bi bi-telephone fs-5 text-restaurant"></i>
+                        <div class="text-start">
+                            <div class="fw-semibold text-dark" style="line-height:1.2">Reservas</div>
+                            <small>+34 910 000 000</small>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="text-center mt-5">
-            <a routerLink="/carta" class="btn btn-restaurant btn-lg rounded-pill px-5 fw-semibold shadow-sm">
-                Ver carta completa <i class="bi bi-arrow-right ms-1"></i>
-            </a>
-        </div>
-    </div>
-</section>
+    </section>
 
-<!-- ========== RESERVATION CTA ========== -->
-<section id="reserva" class="py-6 reservation-section text-white">
-    <div class="container">
-        <div class="row align-items-center g-5">
-            <div class="col-lg-5">
-                <span class="section-label text-white-50">¿Tienes un plan especial?</span>
-                <h2 class="section-title text-white">Reserva tu mesa ahora</h2>
-                <p class="text-white-75 mb-4">
-                    Celebra con nosotros: cumpleaños, aniversarios, reuniones de empresa. Nos adaptamos a tus
-                    necesidades.
-                </p>
-                <ul class="list-unstyled text-white-75 mb-0">
-                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Confirmación inmediata por
-                        email</li>
-                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Cancelación gratuita hasta
-                        24h antes</li>
-                    <li><i class="bi bi-check-circle-fill text-success me-2"></i>Menús especiales bajo petición</li>
-                </ul>
+    <!-- ========== FEATURED MENU ========== -->
+    <section id="menu" class="py-6 bg-light-cream">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <span class="section-label">Nuestra Carta</span>
+                <h2 class="section-title">Platos Destacados</h2>
+                <p class="text-muted mx-auto" style="max-width: 480px;">Una selección de nuestras propuestas más
+                    queridas
+                    por los comensales.</p>
             </div>
-            <div class="col-lg-7">
-                <div class="reservation-form bg-white rounded-4 shadow-lg p-4 p-md-5">
-                    <h4 class="fw-bold text-dark mb-4">Datos de la reserva</h4>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-4" *ngFor="let dish of featuredDishes">
+                    <div class="card h-100 dish-card shadow-sm border-0 overflow-hidden rounded-4">
+                        <div class="dish-img-container position-relative bg-light"
+                            style="height: 220px; overflow: hidden;">
+                            <img [src]="dish.imagenUrl ? dish.imagenUrl : 'assets/images/platos/pizza.png'"
+                                class="w-100 h-100 dish-image" style="object-fit: cover;"
+                                alt="Plato destacado: {{ dish.nombre }}" loading="lazy" (error)="dish.imagenUrl = ''">
+                            <div class="position-absolute top-0 end-0 m-3">
+                                <span class="badge bg-dark rounded-pill shadow fs-6 px-3 py-2 fw-semibold text-white">
+                                    {{ dish.precio | currency:'EUR':'symbol' }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-body p-4 d-flex flex-column bg-white">
+                            <h5 class="card-title fw-bold text-dark mb-0 fs-5">{{ dish.nombre }}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-5">
+                <a routerLink="/carta" class="btn btn-restaurant btn-lg rounded-pill px-5 fw-semibold shadow-sm">
+                    Ver carta completa <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+    </section>
 
-                    <form (ngSubmit)="enviarReserva()" #reservaForm="ngForm">
-                        <div class="row g-3">
-                            <div class="col-md-12">
-                                <label class="form-label fw-medium text-dark small">Nombre completo</label>
-                                <input type="text" class="form-control rounded-3" name="nombre"
-                                    [(ngModel)]="reserva.nombre" required #nombre="ngModel" placeholder="Tu nombre">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-medium text-dark small">Email</label>
-                                <input type="email" class="form-control rounded-3"
-                                    [class.is-invalid]="email.invalid && (email.dirty || email.touched)"
-                                    [class.is-valid]="email.valid && email.touched" name="email"
-                                    [(ngModel)]="reserva.email" required
-                                    pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$" #email="ngModel"
-                                    placeholder="ejemplo@correo.com">
-                                <div class="invalid-feedback"
-                                    *ngIf="email.errors?.['required'] && (email.dirty || email.touched)">
-                                    El email es obligatorio.
+    <!-- ========== RESERVATION CTA ========== -->
+    <section id="reserva" class="py-6 reservation-section text-white">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-5">
+                    <span class="section-label text-white-50">¿Tienes un plan especial?</span>
+                    <h2 class="section-title text-white">Reserva tu mesa ahora</h2>
+                    <p class="text-white-75 mb-4">
+                        Celebra con nosotros: cumpleaños, aniversarios, reuniones de empresa. Nos adaptamos a tus
+                        necesidades.
+                    </p>
+                    <ul class="list-unstyled text-white-75 mb-0">
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Confirmación inmediata
+                            por
+                            email</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Cancelación gratuita
+                            hasta
+                            24h antes</li>
+                        <li><i class="bi bi-check-circle-fill text-success me-2"></i>Menús especiales bajo petición</li>
+                    </ul>
+                </div>
+                <div class="col-lg-7">
+                    <div class="reservation-form bg-white rounded-4 shadow-lg p-4 p-md-5">
+                        <h4 class="fw-bold text-dark mb-4">Datos de la reserva</h4>
+
+                        <form (ngSubmit)="enviarReserva()" #reservaForm="ngForm">
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <label class="form-label fw-medium text-dark small">Nombre completo</label>
+                                    <input type="text" class="form-control rounded-3" name="nombre"
+                                        [(ngModel)]="reserva.nombre" required #nombre="ngModel" placeholder="Tu nombre">
                                 </div>
-                                <div class="invalid-feedback"
-                                    *ngIf="email.errors?.['pattern'] && (email.dirty || email.touched)">
-                                    Introduce un email válido (ej: nombre@dominio.com).
+                                <div class="col-md-6">
+                                    <label class="form-label fw-medium text-dark small">Email</label>
+                                    <input type="email" class="form-control rounded-3"
+                                        [class.is-invalid]="email.invalid && (email.dirty || email.touched)"
+                                        [class.is-valid]="email.valid && email.touched" name="email"
+                                        [(ngModel)]="reserva.email" required
+                                        pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$" #email="ngModel"
+                                        placeholder="ejemplo@correo.com">
+                                    <div class="invalid-feedback"
+                                        *ngIf="email.errors?.['required'] && (email.dirty || email.touched)">
+                                        El email es obligatorio.
+                                    </div>
+                                    <div class="invalid-feedback"
+                                        *ngIf="email.errors?.['pattern'] && (email.dirty || email.touched)">
+                                        Introduce un email válido (ej: nombre@dominio.com).
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-medium text-dark small">Teléfono</label>
-                                <input type="tel" class="form-control rounded-3"
-                                    [class.is-invalid]="telefono.invalid && (telefono.dirty || telefono.touched)"
-                                    [class.is-valid]="telefono.valid && telefono.touched" name="telefono"
-                                    [(ngModel)]="reserva.telefono" required pattern="^[\d\s\+\-]{7,15}$"
-                                    #telefono="ngModel" placeholder="+34 600 000 000">
-                                <div class="invalid-feedback"
-                                    *ngIf="telefono.errors?.['required'] && (telefono.dirty || telefono.touched)">
-                                    El teléfono es obligatorio.
+                                <div class="col-md-6">
+                                    <label class="form-label fw-medium text-dark small">Teléfono</label>
+                                    <input type="tel" class="form-control rounded-3"
+                                        [class.is-invalid]="telefono.invalid && (telefono.dirty || telefono.touched)"
+                                        [class.is-valid]="telefono.valid && telefono.touched" name="telefono"
+                                        [(ngModel)]="reserva.telefono" required pattern="^[\d\s\+\-]{7,15}$"
+                                        #telefono="ngModel" placeholder="+34 600 000 000">
+                                    <div class="invalid-feedback"
+                                        *ngIf="telefono.errors?.['required'] && (telefono.dirty || telefono.touched)">
+                                        El teléfono es obligatorio.
+                                    </div>
+                                    <div class="invalid-feedback"
+                                        *ngIf="telefono.errors?.['pattern'] && (telefono.dirty || telefono.touched)">
+                                        Solo se permiten dígitos, espacios, +, o guiones (7-15 caracteres).
+                                    </div>
                                 </div>
-                                <div class="invalid-feedback"
-                                    *ngIf="telefono.errors?.['pattern'] && (telefono.dirty || telefono.touched)">
-                                    Solo se permiten dígitos, espacios, +, o guiones (7-15 caracteres).
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <label class="form-label fw-medium text-dark small mb-3">Fecha y Hora</label>
-                                <div class="row g-4">
-                                    <div class="col-md-6">
-                                        <div class="border rounded-4 p-3 bg-light shadow-sm">
-                                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                                <button type="button"
-                                                    class="btn btn-sm btn-white custom-btn-shadow rounded-circle"
-                                                    (click)="changeMonth(-1)">
-                                                    <i class="bi bi-chevron-left"></i>
-                                                </button>
-                                                <span class="fw-bold text-dark text-capitalize">
-                                                    {{
-                                                    ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'][currentMonthDate.getMonth()]
-                                                    }} {{ currentMonthDate.getFullYear() }}
-                                                </span>
-                                                <button type="button"
-                                                    class="btn btn-sm btn-white custom-btn-shadow rounded-circle"
-                                                    (click)="changeMonth(1)">
-                                                    <i class="bi bi-chevron-right"></i>
-                                                </button>
-                                            </div>
-                                            <div class="d-grid gap-1 text-center"
-                                                style="grid-template-columns: repeat(7, 1fr); font-size: 0.85rem;">
-                                                <div class="text-muted fw-semibold small mb-1">L</div>
-                                                <div class="text-muted fw-semibold small mb-1">M</div>
-                                                <div class="text-muted fw-semibold small mb-1">X</div>
-                                                <div class="text-muted fw-semibold small mb-1">J</div>
-                                                <div class="text-muted fw-semibold small mb-1">V</div>
-                                                <div class="text-muted fw-semibold small mb-1">S</div>
-                                                <div class="text-muted fw-semibold small mb-1">D</div>
-                                                <ng-container *ngFor="let week of calendarWeeks">
-                                                    <ng-container *ngFor="let day of week">
-                                                        <button type="button"
-                                                            class="btn btn-sm p-0 rounded-circle fw-medium position-relative"
-                                                            [ngClass]="{
+                                <div class="col-md-12">
+                                    <label class="form-label fw-medium text-dark small mb-3">Fecha y Hora</label>
+                                    <div class="row g-4">
+                                        <div class="col-md-6">
+                                            <div class="border rounded-4 p-3 bg-light shadow-sm">
+                                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-white custom-btn-shadow rounded-circle"
+                                                        (click)="changeMonth(-1)">
+                                                        <i class="bi bi-chevron-left"></i>
+                                                    </button>
+                                                    <span class="fw-bold text-dark text-capitalize">
+                                                        {{
+                                                        ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'][currentMonthDate.getMonth()]
+                                                        }} {{ currentMonthDate.getFullYear() }}
+                                                    </span>
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-white custom-btn-shadow rounded-circle"
+                                                        (click)="changeMonth(1)">
+                                                        <i class="bi bi-chevron-right"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="d-grid gap-1 text-center"
+                                                    style="grid-template-columns: repeat(7, 1fr); font-size: 0.85rem;">
+                                                    <div class="text-muted fw-semibold small mb-1">L</div>
+                                                    <div class="text-muted fw-semibold small mb-1">M</div>
+                                                    <div class="text-muted fw-semibold small mb-1">X</div>
+                                                    <div class="text-muted fw-semibold small mb-1">J</div>
+                                                    <div class="text-muted fw-semibold small mb-1">V</div>
+                                                    <div class="text-muted fw-semibold small mb-1">S</div>
+                                                    <div class="text-muted fw-semibold small mb-1">D</div>
+                                                    <ng-container *ngFor="let week of calendarWeeks">
+                                                        <ng-container *ngFor="let day of week">
+                                                            <button type="button"
+                                                                class="btn btn-sm p-0 rounded-circle fw-medium position-relative"
+                                                                [ngClass]="{
                                                                 'btn-restaurant text-white shadow': reserva.fecha === (day.date | date:'yyyy-MM-dd'), 
                                                                 'btn-light border': reserva.fecha !== (day.date | date:'yyyy-MM-dd') && day.date, 
                                                                 'opacity-25 text-muted border-0': day.disabled || !day.date
                                                             }" [disabled]="day.disabled"
-                                                            (click)="day.date && !day.disabled ? selectDate(day.date) : null"
-                                                            style="width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
-                                                            {{ day.date ? (day.date | date:'d') : '' }}
-                                                            <span
-                                                                *ngIf="reserva.fecha === (day.date | date:'yyyy-MM-dd')"
-                                                                class="position-absolute bottom-0 start-50 translate-middle-x bg-white rounded-circle"
-                                                                style="width: 4px; height: 4px; margin-bottom: 4px;"></span>
-                                                        </button>
+                                                                (click)="day.date && !day.disabled ? selectDate(day.date) : null"
+                                                                style="width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                                                {{ day.date ? (day.date | date:'d') : '' }}
+                                                                <span
+                                                                    *ngIf="reserva.fecha === (day.date | date:'yyyy-MM-dd')"
+                                                                    class="position-absolute bottom-0 start-50 translate-middle-x bg-white rounded-circle"
+                                                                    style="width: 4px; height: 4px; margin-bottom: 4px;"></span>
+                                                            </button>
+                                                        </ng-container>
                                                     </ng-container>
-                                                </ng-container>
-                                            </div>
-                                        </div>
-                                        <input type="text" class="d-none" name="fecha" [(ngModel)]="reserva.fecha"
-                                            required #fecha="ngModel">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="border rounded-4 p-4 bg-light shadow-sm h-100 d-flex flex-column justify-content-center position-relative transition-opacity"
-                                            [class.opacity-50]="!reserva.fecha" style="transition: opacity 0.3s ease;">
-                                            <div *ngIf="!reserva.fecha" class="text-center text-muted w-100">
-                                                <div class="bg-white rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm mb-3"
-                                                    style="width: 60px; height: 60px;">
-                                                    <i class="bi bi-calendar3 fs-4 text-restaurant"></i>
                                                 </div>
-                                                <p class="mb-0 small fw-medium">Selecciona una fecha</p>
-                                                <p class="small opacity-50 mb-0">para ver los turnos disponibles</p>
                                             </div>
-                                            <div *ngIf="reserva.fecha" class="w-100 fade-in">
-                                                <div class="mb-4">
-                                                    <h6 class="fw-bold mb-3 d-flex align-items-center text-dark">
-                                                        <i class="bi bi-sun text-warning me-2 fs-5"></i>Turno Comida
-                                                    </h6>
-                                                    <div class="d-flex gap-2 flex-wrap">
-                                                        <button type="button" *ngFor="let s of slotsComida"
-                                                            class="btn btn-sm py-2 px-3 rounded-pill fw-medium"
-                                                            [ngClass]="reserva.slot === s.slot ? 'btn-restaurant shadow' : 'btn-white custom-btn-shadow text-dark'"
-                                                            (click)="reserva.slot = s.slot">
-                                                            {{ s.slot }}
-                                                        </button>
-                                                        <div *ngIf="slotsComida.length === 0"
-                                                            class="badge text-bg-danger d-flex align-items-center px-3 rounded-pill py-2 fw-medium">
-                                                            <i class="bi bi-x-circle me-1"></i>Agotado
+                                            <input type="text" class="d-none" name="fecha" [(ngModel)]="reserva.fecha"
+                                                required #fecha="ngModel">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="border rounded-4 p-4 bg-light shadow-sm h-100 d-flex flex-column justify-content-center position-relative transition-opacity"
+                                                [class.opacity-50]="!reserva.fecha"
+                                                style="transition: opacity 0.3s ease;">
+                                                <div *ngIf="!reserva.fecha" class="text-center text-muted w-100">
+                                                    <div class="bg-white rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm mb-3"
+                                                        style="width: 60px; height: 60px;">
+                                                        <i class="bi bi-calendar3 fs-4 text-restaurant"></i>
+                                                    </div>
+                                                    <p class="mb-0 small fw-medium">Selecciona una fecha</p>
+                                                    <p class="small opacity-50 mb-0">para ver los turnos disponibles</p>
+                                                </div>
+                                                <div *ngIf="reserva.fecha" class="w-100 fade-in">
+                                                    <div class="mb-4">
+                                                        <h6 class="fw-bold mb-3 d-flex align-items-center text-dark">
+                                                            <i class="bi bi-sun text-warning me-2 fs-5"></i>Turno Comida
+                                                        </h6>
+                                                        <div class="d-flex gap-2 flex-wrap">
+                                                            <button type="button" *ngFor="let s of slotsComida"
+                                                                class="btn btn-sm py-2 px-3 rounded-pill fw-medium"
+                                                                [ngClass]="reserva.slot === s.slot ? 'btn-restaurant shadow' : 'btn-white custom-btn-shadow text-dark'"
+                                                                (click)="reserva.slot = s.slot">
+                                                                {{ s.slot }}
+                                                            </button>
+                                                            <div *ngIf="slotsComida.length === 0"
+                                                                class="badge text-bg-danger d-flex align-items-center px-3 rounded-pill py-2 fw-medium">
+                                                                <i class="bi bi-x-circle me-1"></i>Agotado
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="fw-bold mb-3 d-flex align-items-center text-dark">
+                                                            <i class="bi bi-moon-stars text-primary me-2 fs-5"></i>Turno
+                                                            Cena
+                                                        </h6>
+                                                        <div class="d-flex gap-2 flex-wrap">
+                                                            <button type="button" *ngFor="let s of slotsCena"
+                                                                class="btn btn-sm py-2 px-3 rounded-pill fw-medium"
+                                                                [ngClass]="reserva.slot === s.slot ? 'btn-restaurant shadow' : 'btn-white custom-btn-shadow text-dark'"
+                                                                (click)="reserva.slot = s.slot">
+                                                                {{ s.slot }}
+                                                            </button>
+                                                            <div *ngIf="slotsCena.length === 0"
+                                                                class="badge text-bg-danger d-flex align-items-center px-3 rounded-pill py-2 fw-medium">
+                                                                <i class="bi bi-x-circle me-1"></i>Agotado
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div>
-                                                    <h6 class="fw-bold mb-3 d-flex align-items-center text-dark">
-                                                        <i class="bi bi-moon-stars text-primary me-2 fs-5"></i>Turno
-                                                        Cena
-                                                    </h6>
-                                                    <div class="d-flex gap-2 flex-wrap">
-                                                        <button type="button" *ngFor="let s of slotsCena"
-                                                            class="btn btn-sm py-2 px-3 rounded-pill fw-medium"
-                                                            [ngClass]="reserva.slot === s.slot ? 'btn-restaurant shadow' : 'btn-white custom-btn-shadow text-dark'"
-                                                            (click)="reserva.slot = s.slot">
-                                                            {{ s.slot }}
-                                                        </button>
-                                                        <div *ngIf="slotsCena.length === 0"
-                                                            class="badge text-bg-danger d-flex align-items-center px-3 rounded-pill py-2 fw-medium">
-                                                            <i class="bi bi-x-circle me-1"></i>Agotado
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
+                                            <input type="text" class="d-none" name="slot" [(ngModel)]="reserva.slot"
+                                                required #slot="ngModel">
                                         </div>
-                                        <input type="text" class="d-none" name="slot" [(ngModel)]="reserva.slot"
-                                            required #slot="ngModel">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label fw-medium text-dark small">Número de personas</label>
-                                <div class="d-flex gap-2 flex-wrap">
-                                    <button type="button" class="btn rounded-pill px-3 py-2 btn-sm guests-btn"
-                                        *ngFor="let n of [1,2,3,4,5,6,7,8]"
-                                        [ngClass]="reserva.comensales === n ? 'btn-restaurant' : 'btn-outline-secondary'"
-                                        (click)="reserva.comensales = n">
-                                        {{ n }} {{ n === 1 ? 'pers.' : 'pers.' }}
+                                <div class="col-12">
+                                    <label class="form-label fw-medium text-dark small">Número de personas</label>
+                                    <div class="d-flex gap-2 flex-wrap">
+                                        <button type="button" class="btn rounded-pill px-3 py-2 btn-sm guests-btn"
+                                            *ngFor="let n of [1,2,3,4,5,6,7,8]"
+                                            [ngClass]="reserva.comensales === n ? 'btn-restaurant' : 'btn-outline-secondary'"
+                                            (click)="reserva.comensales = n">
+                                            {{ n }} {{ n === 1 ? 'pers.' : 'pers.' }}
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <button type="submit"
+                                        class="btn btn-restaurant w-100 py-3 rounded-3 fw-semibold fs-6 shadow"
+                                        [disabled]="!reservaForm.form.valid || !reserva.slot || isSubmitting">
+                                        <i class="bi bi-calendar-check me-2"></i>Reservar
                                     </button>
                                 </div>
                             </div>
-                            <div class="col-12 mt-4">
-                                <button type="submit"
-                                    class="btn btn-restaurant w-100 py-3 rounded-3 fw-semibold fs-6 shadow"
-                                    [disabled]="!reservaForm.form.valid || !reserva.slot">
-                                    <i class="bi bi-calendar-check me-2"></i>Reservar
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- ========== MAPA ========== -->
-<section class="py-6 bg-light-cream">
-    <div class="container">
-        <div class="section-header text-center mb-5">
-            <span class="section-label">Ubicación</span>
-            <h2 class="section-title">¿Dónde estamos?</h2>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <div class="rounded-4 overflow-hidden shadow-sm border border-light" style="height: 450px;">
-                    <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-                        src="https://maps.google.com/maps?q=38%C2%B058'49.9%22N%205%C2%B002'38.5%22W&t=&z=16&ie=UTF8&iwloc=&output=embed">
-                    </iframe>
+    <!-- ========== MAPA ========== -->
+    <section class="py-6 bg-light-cream">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <span class="section-label">Ubicación</span>
+                <h2 class="section-title">¿Dónde estamos?</h2>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="rounded-4 overflow-hidden shadow-sm border border-light" style="height: 450px;">
+                        <iframe title="Mapa de ubicación de La Belle Époque"
+                            aria-label="Mapa interactivo con la ubicación del restaurante" width="100%" height="100%"
+                            frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                            src="https://maps.google.com/maps?q=38%C2%B058'49.9%22N%205%C2%B002'38.5%22W&t=&z=16&ie=UTF8&iwloc=&output=embed">
+                        </iframe>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+</main>
 
 <!-- ========== FOOTER ========== -->
-<footer class="footer-section text-white pt-5 pb-3">
+<footer class="footer-section text-white pt-5 pb-3" itemscope itemtype="https://schema.org/Restaurant">
     <div class="container">
         <div class="row g-4 mb-4">
             <div class="col-md-4">
                 <div class="d-flex align-items-center gap-2 mb-3">
                     <i class="bi bi-shop fs-4"></i>
-                    <span class="fw-bold fs-5">Gestión Restaurante</span>
+                    <span class="fw-bold fs-5" itemprop="name">Gestión Restaurante</span>
                 </div>
                 <p class="text-white-50 mb-0">Cocina de autor con alma tradicional.<br>Pasión por los sabores auténticos
                     desde 1998.</p>
@@ -376,11 +397,16 @@
                 <p class="text-white-50 mb-1">Mediodía: 13:00 – 16:00</p>
                 <p class="text-white-50 mb-0">Noche: 20:00 – 23:00</p>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
                 <h6 class="fw-semibold mb-3">Contacto</h6>
-                <p class="text-white-50 mb-1"><i class="bi bi-geo-alt me-2"></i>Calle Principal, 12 - Madrid</p>
-                <p class="text-white-50 mb-1"><i class="bi bi-telephone me-2"></i>+34 910 000 000</p>
-                <p class="text-white-50 mb-0"><i class="bi bi-envelope me-2"></i>hola@labelleepoque.es</p>
+                <address class="mb-0">
+                    <p class="text-white-50 mb-1"><i class="bi bi-geo-alt me-2"></i><span itemprop="streetAddress">Calle
+                            Principal, 12</span> - <span itemprop="addressLocality">Madrid</span></p>
+                    <p class="text-white-50 mb-1"><i class="bi bi-telephone me-2"></i><span itemprop="telephone">+34 910
+                            000 000</span></p>
+                    <p class="text-white-50 mb-0"><i class="bi bi-envelope me-2"></i><span
+                            itemprop="email">hola@labelleepoque.es</span></p>
+                </address>
             </div>
         </div>
         <hr class="border-white border-opacity-25">

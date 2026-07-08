@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /confirmar-reserva
+Disallow: /configurar-cookies
+
+Sitemap: https://www.labelleepoque.es/sitemap.xml
