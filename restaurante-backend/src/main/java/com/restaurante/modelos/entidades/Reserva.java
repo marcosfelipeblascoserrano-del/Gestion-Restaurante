@@ -26,6 +26,9 @@ public class Reserva {
 
     private String tokenConfirmacion;
 
+    @Column(name = "fecha_creacion")
+    private LocalDateTime fechaCreacion;
+
     public Reserva() {
     }
 
@@ -91,5 +94,18 @@ public class Reserva {
 
     public void setTokenConfirmacion(String tokenConfirmacion) {
         this.tokenConfirmacion = tokenConfirmacion;
+    }
+
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(LocalDateTime fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.fechaCreacion = LocalDateTime.now();
     }
 }

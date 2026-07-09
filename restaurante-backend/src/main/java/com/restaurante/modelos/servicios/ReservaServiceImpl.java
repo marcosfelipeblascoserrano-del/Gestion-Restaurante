@@ -8,6 +8,9 @@ import com.restaurante.modelos.entidades.Reserva;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -20,6 +23,8 @@ import java.util.UUID;
 
 @Service
 public class ReservaServiceImpl implements IReservaService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ReservaServiceImpl.class);
 
     @Autowired
     private ReservaDao reservaDao;
@@ -156,5 +161,20 @@ public class ReservaServiceImpl implements IReservaService {
     public Reserva getReservaPorToken(String token) {
         return reservaDao.findByTokenConfirmacion(token)
                 .orElseThrow(() -> new IllegalArgumentException("Token inválido o reserva no existe"));
+    }
+
+    @Scheduled(fixedRate = 60000)
+    @Transactional
+    public void limpiarReservasCaducadas() {
+        LocalDateTime limite = LocalDateTime.now().minusMinutes(15);
+        List<Reserva> caducadas = reservaDao.findByEstadoAndFechaCreacionBefore(EstadoReserva.PENDIENTE, limite);
+        
+        if (!caducadas.isEmpty()) {
+            logger.info("Cancelando {} reservas pendientes que han superado los 15 minutos", caducadas.size());
+            for (Reserva r : caducadas) {
+                r.setEstado(EstadoReserva.CANCELADA);
+                reservaDao.save(r);
+            }
+        }
     }
 }

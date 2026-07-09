@@ -16,4 +16,6 @@ public interface ReservaDao extends JpaRepository<Reserva, Long> {
             @Param("estados") java.util.List<com.restaurante.modelos.entidades.EstadoReserva> estados);
 
     java.util.Optional<Reserva> findByTokenConfirmacion(String tokenConfirmacion);
+
+    java.util.List<Reserva> findByEstadoAndFechaCreacionBefore(com.restaurante.modelos.entidades.EstadoReserva estado, LocalDateTime fechaCreacion);
 }
