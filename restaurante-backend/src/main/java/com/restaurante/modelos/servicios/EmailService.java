@@ -35,6 +35,7 @@ public class EmailService {
                     + reserva.getFechaHora().toLocalTime() + "</b> para <b>"
                     + reserva.getComensales() + " personas</b>.</p>"
                     + "<p>Por favor, confirma tu reserva haciendo clic en el siguiente enlace:</p>"
+                    + "<p style=\"color: #d9534f; font-weight: bold;\">Importante: Tienes 15 minutos para confirmar tu reserva. Si no lo haces en ese tiempo, la reserva será cancelada automáticamente.</p>"
                     + "<a href=\"" + urlConfirmacion
                     + "\" style=\"display: inline-block; padding: 10px 20px; color: white; background-color: #8B1A1A; text-decoration: none; border-radius: 5px;\">Confirmar Reserva</a>"
                     + "<p>Si no has solicitado esta reserva, puedes ignorar este correo.</p>";
