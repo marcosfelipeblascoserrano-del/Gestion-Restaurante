@@ -39,4 +39,16 @@ public class ControladorPlato {
                         .cachePublic())
                 .body(platoService.obtenerIngredientesPorPlato(id));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Plato> actualizar(@PathVariable Long id, @RequestBody Plato plato) {
+        Plato platoActualizado = platoService.actualizarPlato(id, plato);
+        return ResponseEntity.ok(platoActualizado);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+        platoService.eliminarPlato(id);
+        return ResponseEntity.noContent().build();
+    }
 }

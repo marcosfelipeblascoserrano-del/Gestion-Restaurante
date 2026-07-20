@@ -16,4 +16,34 @@ export class PlatoService {
         return this.http.get<Plato[]>(this.baseUrl);
     }
 
+    createPlato(plato: Plato): Observable<Plato> {
+        return this.http.post<Plato>(this.baseUrl, plato);
+    }
+
+    updatePlato(id: number, plato: Plato): Observable<Plato> {
+        return this.http.put<Plato>(`${this.baseUrl}/${id}`, plato);
+    }
+
+    deletePlato(id: number): Observable<void> {
+        return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    }
+
+    // --- Alérgenos ---
+    getAllAlergenos(): Observable<any[]> {
+        return this.http.get<any[]>('http://localhost:8080/api/alergenos');
+    }
+
+    createAlergeno(nombre: string): Observable<any> {
+        return this.http.post<any>('http://localhost:8080/api/alergenos', { nombre });
+    }
+
+    // --- Ingredientes ---
+    getAllIngredientes(): Observable<any[]> {
+        return this.http.get<any[]>('http://localhost:8080/api/ingredientes');
+    }
+
+    createIngrediente(nombre: string): Observable<any> {
+        return this.http.post<any>('http://localhost:8080/api/ingredientes', { nombre });
+    }
+
 }

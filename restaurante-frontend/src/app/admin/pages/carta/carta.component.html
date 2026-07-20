@@ -1,0 +1,206 @@
+<div class="page-header">
+  <div class="header-title">
+    <h1>Gestión de Carta</h1>
+    <p>Administra los platos y menú de tu restaurante</p>
+  </div>
+  
+  <div class="header-actions">
+    <button class="btn-primary" (click)="abrirModal()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+      Añadir Plato
+    </button>
+  </div>
+</div>
+
+<div class="table-card">
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Cargando carta...</p>
+  </div>
+
+  <table *ngIf="!loading" class="admin-table">
+    <thead>
+      <tr>
+        <th>Imagen</th>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Precio</th>
+        <th>Disponible</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let plato of platos">
+        <td>
+          <div class="plato-img">
+            <img [src]="plato.imagenUrl" alt="{{ plato.nombre }}" *ngIf="plato.imagenUrl" />
+            <div class="no-img" *ngIf="!plato.imagenUrl">Sin Imagen</div>
+          </div>
+        </td>
+        <td class="client-name">{{ plato.nombre }}</td>
+        <td>{{ plato.categoria?.nombre || 'Sin categoría' }}</td>
+        <td class="price-val">{{ plato.precio }} €</td>
+        <td>
+          <label class="switch">
+            <input type="checkbox" [checked]="plato.disponible" (change)="toggleDisponibilidad(plato)">
+            <span class="slider round"></span>
+          </label>
+        </td>
+        <td>
+          <div class="action-buttons">
+            <button class="btn-icon edit" (click)="abrirModal(plato)" title="Editar">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="16 3 21 8 8 21 3 21 3 16 16 3"></polygon></svg>
+            </button>
+            <button class="btn-icon delete" (click)="eliminarPlato(plato.id)" title="Eliminar">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- =========================================== -->
+<!-- MODAL PRINCIPAL: Crear / Editar Plato       -->
+<!-- =========================================== -->
+<div class="modal-overlay" *ngIf="showModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2>{{ editingPlato.id ? 'Editar Plato' : 'Añadir Nuevo Plato' }}</h2>
+      <button class="close-btn" (click)="cerrarModal()">✕</button>
+    </div>
+    
+    <div class="modal-body">
+      <form #platoForm="ngForm">
+
+        <!-- Nombre -->
+        <div class="form-group">
+          <label>Nombre del Plato</label>
+          <input type="text" [(ngModel)]="editingPlato.nombre" name="nombre" class="custom-input" required>
+        </div>
+
+        <!-- Descripción -->
+        <div class="form-group">
+          <label>Descripción</label>
+          <textarea [(ngModel)]="editingPlato.descripcion" name="descripcion" class="custom-input textarea" rows="2"></textarea>
+        </div>
+        
+        <div class="form-row">
+          <!-- Precio -->
+          <div class="form-group half">
+            <label>Precio (€)</label>
+            <input type="number" [(ngModel)]="editingPlato.precio" name="precio" class="custom-input" step="0.01" required>
+          </div>
+          <!-- Disponible -->
+          <div class="form-group half">
+            <label>Disponible</label>
+            <select [(ngModel)]="editingPlato.disponible" name="disponible" class="custom-select modal-select">
+              <option [ngValue]="true">Sí</option>
+              <option [ngValue]="false">No</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- URL Imagen -->
+        <div class="form-group">
+          <label>URL de la Imagen</label>
+          <input type="url" [(ngModel)]="editingPlato.imagenUrl" name="imagenUrl" class="custom-input" placeholder="https://...">
+        </div>
+
+        <!-- Categoría -->
+        <div class="form-group">
+          <label>Categoría</label>
+          <select [(ngModel)]="editingPlato.categoria.id" name="categoria" class="custom-select modal-select">
+            <option [ngValue]="null">-- Sin categoría --</option>
+            <option *ngFor="let cat of categorias" [ngValue]="cat.id">{{ cat.nombre }}</option>
+          </select>
+        </div>
+
+        <!-- ===== ALÉRGENOS ===== -->
+        <div class="form-group">
+          <div class="label-row">
+            <label>Alérgenos</label>
+            <button type="button" class="btn-add-mini" (click)="showNuevoAlergenoModal = true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              Nuevo
+            </button>
+          </div>
+          <div class="chips-container">
+            <label *ngFor="let al of alergenos" class="chip" [class.selected]="selectedAlergenosIds.has(al.id)" (click)="toggleAlergeno(al.id)">
+              {{ al.nombre }}
+            </label>
+            <span class="no-items" *ngIf="alergenos.length === 0">No hay alérgenos registrados</span>
+          </div>
+        </div>
+
+        <!-- ===== INGREDIENTES ===== -->
+        <div class="form-group">
+          <div class="label-row">
+            <label>Ingredientes</label>
+            <button type="button" class="btn-add-mini" (click)="showNuevoIngredienteModal = true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              Nuevo
+            </button>
+          </div>
+          <div class="chips-container">
+            <label *ngFor="let ing of ingredientes" class="chip" [class.selected]="selectedIngredientesIds.has(ing.id)" (click)="toggleIngrediente(ing.id)">
+              {{ ing.nombre }}
+            </label>
+            <span class="no-items" *ngIf="ingredientes.length === 0">No hay ingredientes registrados</span>
+          </div>
+        </div>
+
+      </form>
+    </div>
+    
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="cerrarModal()">Cancelar</button>
+      <button class="btn-primary" (click)="guardarPlato()" [disabled]="!platoForm.valid">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================== -->
+<!-- MINI MODAL: Nuevo Alérgeno                  -->
+<!-- =========================================== -->
+<div class="modal-overlay mini-overlay" *ngIf="showNuevoAlergenoModal">
+  <div class="mini-modal-card">
+    <div class="modal-header">
+      <h3>Nuevo Alérgeno</h3>
+      <button class="close-btn" (click)="showNuevoAlergenoModal = false; nuevoAlergenoNombre = ''">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Nombre del Alérgeno</label>
+        <input type="text" [(ngModel)]="nuevoAlergenoNombre" class="custom-input" placeholder="Ej: Gluten, Lactosa..." (keyup.enter)="guardarAlergeno()">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="showNuevoAlergenoModal = false; nuevoAlergenoNombre = ''">Cancelar</button>
+      <button class="btn-primary" (click)="guardarAlergeno()" [disabled]="!nuevoAlergenoNombre.trim() || savingItem">Añadir</button>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================== -->
+<!-- MINI MODAL: Nuevo Ingrediente               -->
+<!-- =========================================== -->
+<div class="modal-overlay mini-overlay" *ngIf="showNuevoIngredienteModal">
+  <div class="mini-modal-card">
+    <div class="modal-header">
+      <h3>Nuevo Ingrediente</h3>
+      <button class="close-btn" (click)="showNuevoIngredienteModal = false; nuevoIngredienteNombre = ''">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Nombre del Ingrediente</label>
+        <input type="text" [(ngModel)]="nuevoIngredienteNombre" class="custom-input" placeholder="Ej: Tomate, Queso..." (keyup.enter)="guardarIngrediente()">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="showNuevoIngredienteModal = false; nuevoIngredienteNombre = ''">Cancelar</button>
+      <button class="btn-primary" (click)="guardarIngrediente()" [disabled]="!nuevoIngredienteNombre.trim() || savingItem">Añadir</button>
+    </div>
+  </div>
+</div>

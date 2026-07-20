@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +17,7 @@ import { PoliticaCookiesComponent } from './pages/politica-cookies/politica-cook
 import { PoliticaPrivacidadComponent } from './pages/politica-privacidad/politica-privacidad.component';
 import { AvisoLegalComponent } from './pages/aviso-legal/aviso-legal.component';
 import { ConfigurarCookiesComponent } from './pages/configurar-cookies/configurar-cookies.component';
+import { JwtInterceptor } from './admin/interceptors/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,10 @@ import { ConfigurarCookiesComponent } from './pages/configurar-cookies/configura
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [PlatoService],
+  providers: [
+    PlatoService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

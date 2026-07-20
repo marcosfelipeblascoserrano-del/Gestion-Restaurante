@@ -29,4 +29,12 @@ export class ReservaService {
         const params = new HttpParams().set('token', token);
         return this.http.get<any>(`${this.urlEndPoint}/detalles`, { params });
     }
+
+    listarTodas(): Observable<any[]> {
+        return this.http.get<any[]>(this.urlEndPoint);
+    }
+
+    actualizarEstado(id: number, estado: string): Observable<any> {
+        return this.http.put<any>(`${this.urlEndPoint}/${id}/estado`, { estado });
+    }
 }

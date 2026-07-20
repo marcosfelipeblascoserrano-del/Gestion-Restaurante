@@ -9,7 +9,7 @@ export class Plato {
         public precio: number,
         public disponible: boolean,
         public imagenUrl: string,
-        public categoria: string,
+        public categoria: any,
         public alergenos: Alergeno[],
         public ingredientes: Ingrediente[]
     ) { }
