@@ -1,0 +1,85 @@
+<div class="page-header">
+  <div class="header-title">
+    <h1>Configuración del Restaurante</h1>
+    <p>Administra la información pública de tu negocio</p>
+  </div>
+</div>
+
+<div *ngIf="loading" class="loading-state">
+  <div class="spinner"></div>
+  <p>Cargando configuración...</p>
+</div>
+
+<div *ngIf="!loading && config" class="config-container">
+  
+  <div *ngIf="successMessage" class="alert-success">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+    {{ successMessage }}
+  </div>
+
+  <div class="config-card">
+    <form #configForm="ngForm" (ngSubmit)="guardarCambios()" class="config-form">
+      
+      <div class="form-section">
+        <h3>Información General</h3>
+        <div class="form-row">
+          <div class="form-group half">
+            <label>Nombre del Restaurante</label>
+            <input type="text" [(ngModel)]="config.nombre" name="nombre" class="custom-input" required>
+          </div>
+          <div class="form-group half">
+            <label>Teléfono</label>
+            <input type="tel" [(ngModel)]="config.telefono" name="telefono" class="custom-input" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Dirección Fïsica</label>
+          <input type="text" [(ngModel)]="config.direccion" name="direccion" class="custom-input" required>
+        </div>
+
+        <div class="form-group">
+          <label>Descripción</label>
+          <textarea [(ngModel)]="config.descripcion" name="descripcion" class="custom-input textarea" rows="4"></textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Horarios y Capacidad</h3>
+        <div class="form-row">
+          <div class="form-group third">
+            <label>Hora de Apertura</label>
+            <input type="time" [(ngModel)]="config.horaApertura" name="horaApertura" class="custom-input" required>
+          </div>
+          <div class="form-group third">
+            <label>Hora de Cierre</label>
+            <input type="time" [(ngModel)]="config.horaCierre" name="horaCierre" class="custom-input" required>
+          </div>
+          <div class="form-group third">
+            <label>Capacidad Máx. (Personas)</label>
+            <input type="number" [(ngModel)]="config.capacidadMesas" name="capacidadMesas" class="custom-input" required min="1">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>Branding</h3>
+        <div class="form-group">
+          <label>URL del Logo</label>
+          <input type="url" [(ngModel)]="config.logoUrl" name="logoUrl" class="custom-input" placeholder="https://...">
+        </div>
+        <div class="logo-preview" *ngIf="config.logoUrl">
+          <img [src]="config.logoUrl" alt="Logo preview">
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary large" [disabled]="!configForm.valid || saving">
+          <span *ngIf="!saving">Guardar Cambios</span>
+          <span *ngIf="saving" class="spinner-small"></span>
+        </button>
+      </div>
+      
+    </form>
+  </div>
+</div>

@@ -54,9 +54,9 @@ export class CartaComponent implements OnInit {
                     ...categoria,
                     platos: platos
                         .filter(p => {
-                            const catName = typeof p.categoria === 'object'
-                                ? (p.categoria as any).nombre
-                                : p.categoria;
+                            const catName = p.categoria 
+                                ? (typeof p.categoria === 'object' ? (p.categoria as any).nombre : p.categoria)
+                                : null;
                             return catName === categoria.nombre;
                         })
                 };

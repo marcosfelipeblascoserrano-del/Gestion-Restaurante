@@ -10,4 +10,8 @@ public interface IPlatoService {
     Plato agregarPlato(Plato plato);
 
     List<Ingrediente> obtenerIngredientesPorPlato(Long platoId);
+
+    Plato actualizarPlato(Long id, Plato plato);
+
+    void eliminarPlato(Long id);
 }

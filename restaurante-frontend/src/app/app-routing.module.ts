@@ -17,6 +17,7 @@ const routes: Routes = [
   { path: 'politica-privacidad', component: PoliticaPrivacidadComponent },
   { path: 'aviso-legal', component: AvisoLegalComponent },
   { path: 'configurar-cookies', component: ConfigurarCookiesComponent },
+  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
   { path: '**', redirectTo: '' }
 ];
 

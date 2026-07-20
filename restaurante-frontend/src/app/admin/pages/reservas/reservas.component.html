@@ -1,0 +1,73 @@
+<div class="page-header">
+  <div class="header-title">
+    <h1>Gestión de Reservas</h1>
+    <p>Administra las reservas de tus clientes</p>
+  </div>
+  
+  <div class="header-actions">
+    <div class="filter-group">
+      <label>Estado:</label>
+      <select [(ngModel)]="filtroEstado" class="custom-select">
+        <option value="TODAS">Todas</option>
+        <option value="PENDIENTE">Pendientes</option>
+        <option value="CONFIRMADA">Confirmadas</option>
+        <option value="COMPLETADA">Completadas</option>
+        <option value="CANCELADA">Canceladas</option>
+      </select>
+    </div>
+    <button class="btn-primary" (click)="cargarReservas()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+      Refrescar
+    </button>
+  </div>
+</div>
+
+<div class="table-card">
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Cargando reservas...</p>
+  </div>
+
+  <table *ngIf="!loading" class="admin-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Fecha y Hora</th>
+        <th>Cliente</th>
+        <th>Personas</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="reservasFiltradas.length === 0">
+        <td colspan="6" class="empty-state">No hay reservas que mostrar</td>
+      </tr>
+      <tr *ngFor="let reserva of reservasFiltradas">
+        <td>#{{ reserva.id }}</td>
+        <td>{{ reserva.fechaHora | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>
+          <div class="client-info">
+            <span class="client-name">{{ reserva.nombre }}</span>
+            <span class="client-contact">{{ reserva.telefono }} • {{ reserva.email }}</span>
+          </div>
+        </td>
+        <td>{{ reserva.comensales }} pax</td>
+        <td>
+          <span class="status-badge" [ngClass]="getEstadoClass(reserva.estado)">
+            {{ reserva.estado }}
+          </span>
+        </td>
+        <td class="actions-cell">
+          <select #estadoSelect class="action-select" (change)="cambiarEstado(reserva.id, estadoSelect.value)">
+            <option value="" disabled selected>Cambiar estado...</option>
+            <option value="PENDIENTE" *ngIf="reserva.estado !== 'PENDIENTE'">Pendiente</option>
+            <option value="CONFIRMADA" *ngIf="reserva.estado !== 'CONFIRMADA'">Confirmar</option>
+            <option value="COMPLETADA" *ngIf="reserva.estado !== 'COMPLETADA'">Completar</option>
+            <option value="CANCELADA" *ngIf="reserva.estado !== 'CANCELADA'">Cancelar</option>
+          </select>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

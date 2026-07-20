@@ -21,7 +21,7 @@ public class Plato {
 
     private Boolean disponible;
 
-    @Column(name = "imagen_url")
+    @Column(name = "imagen_url", length = 1000)
     private String imagenUrl;
 
     @ManyToMany
