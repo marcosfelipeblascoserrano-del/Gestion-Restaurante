@@ -22,8 +22,6 @@ public class ControladorCategoria {
     @GetMapping
     public ResponseEntity<List<Categoria>> listar() {
         return ResponseEntity.ok()
-                .cacheControl(org.springframework.http.CacheControl.maxAge(1, java.util.concurrent.TimeUnit.HOURS)
-                        .cachePublic())
                 .body(categoriaService.obtenerCategorias());
     }
 }

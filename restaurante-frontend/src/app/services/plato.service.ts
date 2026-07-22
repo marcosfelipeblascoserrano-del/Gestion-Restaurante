@@ -13,7 +13,7 @@ export class PlatoService {
     constructor(private http: HttpClient) { }
 
     getAllPlatos(): Observable<Plato[]> {
-        return this.http.get<Plato[]>(this.baseUrl);
+        return this.http.get<Plato[]>(`${this.baseUrl}?t=${new Date().getTime()}`);
     }
 
     createPlato(plato: Plato): Observable<Plato> {
@@ -37,6 +37,10 @@ export class PlatoService {
         return this.http.post<any>('http://localhost:8080/api/alergenos', { nombre });
     }
 
+    deleteAlergeno(id: number): Observable<void> {
+        return this.http.delete<void>(`http://localhost:8080/api/alergenos/${id}`);
+    }
+
     // --- Ingredientes ---
     getAllIngredientes(): Observable<any[]> {
         return this.http.get<any[]>('http://localhost:8080/api/ingredientes');
@@ -44,6 +48,10 @@ export class PlatoService {
 
     createIngrediente(nombre: string): Observable<any> {
         return this.http.post<any>('http://localhost:8080/api/ingredientes', { nombre });
+    }
+
+    deleteIngrediente(id: number): Observable<void> {
+        return this.http.delete<void>(`http://localhost:8080/api/ingredientes/${id}`);
     }
 
 }

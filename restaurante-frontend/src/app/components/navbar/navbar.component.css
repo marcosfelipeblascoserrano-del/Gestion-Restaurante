@@ -7,16 +7,12 @@ nav.navbar {
   font-family: 'Outfit', sans-serif;
   padding-top: 0.9rem;
   padding-bottom: 0.9rem;
-  /* height cap: ~64px at desktop */
-  backdrop-filter: blur(0px);
-  transition: backdrop-filter 300ms var(--ease-out), background-color 300ms var(--ease-out);
-}
-
-/* Scrolled state — controlled via JS by adding .scrolled class */
-nav.navbar.scrolled {
-  backdrop-filter: blur(12px);
-  background-color: rgba(17, 17, 17, 0.82) !important;
-  border-bottom: 1px solid var(--border-dark);
+  /* Dark glassmorphism */
+  background-color: rgba(17, 17, 17, 0.350) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* Nav links */
@@ -65,3 +61,4 @@ nav.navbar.scrolled {
 .nav-cta:active {
   transform: scale(0.97);
 }
+

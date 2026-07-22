@@ -13,6 +13,6 @@ export class CategoriaService {
   constructor(private http: HttpClient) { }
 
   getAllCategorias(): Observable<Categoria[]> {
-    return this.http.get<Categoria[]>(this.baseUrl);
+    return this.http.get<Categoria[]>(`${this.baseUrl}?t=${new Date().getTime()}`);
   }
 }

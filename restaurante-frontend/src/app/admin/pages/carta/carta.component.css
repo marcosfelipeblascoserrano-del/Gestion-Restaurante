@@ -293,6 +293,19 @@ input:checked + .slider:before {
   border-color: #8B1A1A;
 }
 
+.custom-input.ng-invalid.ng-touched, 
+.custom-select.ng-invalid.ng-touched,
+.textarea.ng-invalid.ng-touched {
+  border-color: #ef4444;
+}
+
+.error-msg {
+  display: block;
+  color: #ef4444;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
 .modal-footer {
   padding: 16px 24px;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -410,3 +423,98 @@ input:checked + .slider:before {
   color: #fff;
 }
 
+/* Botón borrar mini (junto a btn-add-mini) */
+.label-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn-delete-mini {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-delete-mini:hover,
+.btn-delete-mini.active {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+/* Wrapper relativo para el overlay de papelera */
+.chip-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.chip-delete-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 17, 17, 0.65);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ef4444;
+  transition: background 0.2s ease;
+}
+
+.chip-delete-overlay:hover {
+  background: rgba(239, 68, 68, 0.45);
+}
+
+/* Modal de confirmación */
+.confirm-card {
+  max-width: 420px;
+}
+
+.confirm-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 16px;
+  color: #fff;
+}
+
+.confirm-msg {
+  color: #C0C0D0;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.confirm-msg strong {
+  color: #fff;
+}
+
+/* Botón de peligro (rojo) */
+.btn-danger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
