@@ -27,7 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
-        final String userEmail;
+        String userEmail = null;
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
@@ -35,7 +35,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         jwt = authHeader.substring(7);
-        userEmail = jwtUtil.extractUsername(jwt);
+        
+        try {
+            userEmail = jwtUtil.extractUsername(jwt);
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            // Token expirado. Se ignora para permitir el acceso a rutas públicas.
+            // Si la ruta es privada, Spring Security bloqueará la petición más adelante.
+        } catch (Exception e) {
+            // Token inválido. Se ignora por el mismo motivo.
+        }
 
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(userEmail);

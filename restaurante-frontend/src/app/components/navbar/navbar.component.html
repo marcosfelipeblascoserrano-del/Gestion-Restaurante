@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-transparent position-absolute w-100 top-0 start-0"
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top w-100 top-0 start-0"
     style="z-index: 50;" id="mainNavbar">
     <div class="container px-4">
         <a class="navbar-brand d-flex align-items-center gap-2" href="#">
@@ -12,19 +12,24 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto gap-1 gap-lg-2 align-items-lg-center">
                 <li class="nav-item">
-                    <a class="nav-link rounded px-3 text-white fw-medium nav-hover" routerLink="/">Inicio</a>
+                    <a class="nav-link rounded px-3 text-white fw-medium nav-hover" routerLink="/"
+                        (click)="closeMenu()">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link rounded px-3 text-white fw-medium nav-hover" routerLink="/carta">Carta</a>
+                    <a class="nav-link rounded px-3 text-white fw-medium nav-hover" routerLink="/carta"
+                        (click)="closeMenu()">Carta</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link rounded px-3 text-white fw-medium nav-hover" href="#">Nosotros</a>
+                    <a class="nav-link rounded px-3 text-white fw-medium nav-hover" href="#"
+                        (click)="closeMenu()">Nosotros</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link rounded px-3 text-white fw-medium nav-hover" href="#">Galería</a>
+                    <a class="nav-link rounded px-3 text-white fw-medium nav-hover" href="#"
+                        (click)="closeMenu()">Galería</a>
                 </li>
                 <li class="nav-item ms-lg-2">
-                    <a class="btn btn-outline-light rounded-pill px-4 fw-semibold nav-cta" href="#reserva">
+                    <a class="btn btn-outline-light rounded-pill px-4 fw-semibold nav-cta" href="#reserva"
+                        (click)="closeMenu()">
                         <i class="bi bi-calendar-check me-1"></i>Reservar
                     </a>
                 </li>

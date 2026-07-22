@@ -77,20 +77,22 @@
         <!-- Nombre -->
         <div class="form-group">
           <label>Nombre del Plato</label>
-          <input type="text" [(ngModel)]="editingPlato.nombre" name="nombre" class="custom-input" required>
+          <input type="text" [(ngModel)]="editingPlato.nombre" #nombre="ngModel" name="nombre" class="custom-input" required>
+          <span class="error-msg" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">El nombre es obligatorio</span>
         </div>
 
         <!-- Descripción -->
         <div class="form-group">
           <label>Descripción</label>
-          <textarea [(ngModel)]="editingPlato.descripcion" name="descripcion" class="custom-input textarea" rows="2"></textarea>
+          <textarea [(ngModel)]="editingPlato.descripcion"  name="descripcion" class="custom-input textarea" rows="2"></textarea>
         </div>
         
         <div class="form-row">
           <!-- Precio -->
           <div class="form-group half">
             <label>Precio (€)</label>
-            <input type="number" [(ngModel)]="editingPlato.precio" name="precio" class="custom-input" step="0.01" required>
+            <input type="number" [(ngModel)]="editingPlato.precio" #precio="ngModel" name="precio" class="custom-input" step="0.01" min="0" required>
+            <span class="error-msg" *ngIf="precio.invalid && (precio.dirty || precio.touched)">El precio es obligatorio y mayor o igual a 0</span>
           </div>
           <!-- Disponible -->
           <div class="form-group half">
@@ -105,31 +107,42 @@
         <!-- URL Imagen -->
         <div class="form-group">
           <label>URL de la Imagen</label>
-          <input type="url" [(ngModel)]="editingPlato.imagenUrl" name="imagenUrl" class="custom-input" placeholder="https://...">
+          <input type="url" [(ngModel)]="editingPlato.imagenUrl" #imagenUrl="ngModel" name="imagenUrl" class="custom-input" placeholder="https://..." required>
+          <span class="error-msg" *ngIf="imagenUrl.invalid && (imagenUrl.dirty || imagenUrl.touched)">La URL de la imagen es obligatoria</span>
         </div>
 
         <!-- Categoría -->
         <div class="form-group">
           <label>Categoría</label>
-          <select [(ngModel)]="editingPlato.categoria.id" name="categoria" class="custom-select modal-select">
-            <option [ngValue]="null">-- Sin categoría --</option>
+          <select [(ngModel)]="editingPlato.categoria.id" #categoria="ngModel" name="categoria" class="custom-select modal-select" required>
+            <option [ngValue]="null" disabled>-- Selecciona una categoría --</option>
             <option *ngFor="let cat of categorias" [ngValue]="cat.id">{{ cat.nombre }}</option>
           </select>
+          <span class="error-msg" *ngIf="categoria.invalid && (categoria.dirty || categoria.touched)">La categoría es obligatoria</span>
         </div>
 
         <!-- ===== ALÉRGENOS ===== -->
         <div class="form-group">
           <div class="label-row">
             <label>Alérgenos</label>
-            <button type="button" class="btn-add-mini" (click)="showNuevoAlergenoModal = true">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-              Nuevo
-            </button>
+            <div class="label-actions">
+              <button type="button" class="btn-add-mini" (click)="showNuevoAlergenoModal = true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Nuevo
+              </button>
+              <button type="button" class="btn-delete-mini" [class.active]="modoEliminarAlergeno" (click)="modoEliminarAlergeno = !modoEliminarAlergeno">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                {{ modoEliminarAlergeno ? 'Cancelar' : 'Borrar' }}
+              </button>
+            </div>
           </div>
           <div class="chips-container">
-            <label *ngFor="let al of alergenos" class="chip" [class.selected]="selectedAlergenosIds.has(al.id)" (click)="toggleAlergeno(al.id)">
-              {{ al.nombre }}
-            </label>
+            <div *ngFor="let al of alergenos" class="chip-wrapper">
+              <label class="chip" [class.selected]="selectedAlergenosIds.has(al.id)" (click)="!modoEliminarAlergeno && toggleAlergeno(al.id)">{{ al.nombre }}</label>
+              <div class="chip-delete-overlay" *ngIf="modoEliminarAlergeno" (click)="pedirConfirmacionEliminar('alergeno', al)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+              </div>
+            </div>
             <span class="no-items" *ngIf="alergenos.length === 0">No hay alérgenos registrados</span>
           </div>
         </div>
@@ -138,15 +151,24 @@
         <div class="form-group">
           <div class="label-row">
             <label>Ingredientes</label>
-            <button type="button" class="btn-add-mini" (click)="showNuevoIngredienteModal = true">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-              Nuevo
-            </button>
+            <div class="label-actions">
+              <button type="button" class="btn-add-mini" (click)="showNuevoIngredienteModal = true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Nuevo
+              </button>
+              <button type="button" class="btn-delete-mini" [class.active]="modoEliminarIngrediente" (click)="modoEliminarIngrediente = !modoEliminarIngrediente">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                {{ modoEliminarIngrediente ? 'Cancelar' : 'Borrar' }}
+              </button>
+            </div>
           </div>
           <div class="chips-container">
-            <label *ngFor="let ing of ingredientes" class="chip" [class.selected]="selectedIngredientesIds.has(ing.id)" (click)="toggleIngrediente(ing.id)">
-              {{ ing.nombre }}
-            </label>
+            <div *ngFor="let ing of ingredientes" class="chip-wrapper">
+              <label class="chip" [class.selected]="selectedIngredientesIds.has(ing.id)" (click)="!modoEliminarIngrediente && toggleIngrediente(ing.id)">{{ ing.nombre }}</label>
+              <div class="chip-delete-overlay" *ngIf="modoEliminarIngrediente" (click)="pedirConfirmacionEliminar('ingrediente', ing)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+              </div>
+            </div>
             <span class="no-items" *ngIf="ingredientes.length === 0">No hay ingredientes registrados</span>
           </div>
         </div>
@@ -204,3 +226,31 @@
     </div>
   </div>
 </div>
+
+<!-- =========================================== -->
+<!-- MINI MODAL: Confirmar Eliminación           -->
+<!-- =========================================== -->
+<div class="modal-overlay mini-overlay" *ngIf="showConfirmModal">
+  <div class="mini-modal-card confirm-card">
+    <div class="modal-header">
+      <h3 class="confirm-title">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        Confirmar eliminación
+      </h3>
+      <button class="close-btn" (click)="cancelarConfirmacion()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="confirm-msg" *ngIf="confirmTipo === 'alergeno'">
+        ¿Estás seguro de que quieres eliminar el alérgeno <strong>"{{ confirmItem?.nombre }}"</strong>? Esta acción no se puede deshacer.
+      </p>
+      <p class="confirm-msg" *ngIf="confirmTipo === 'ingrediente'">
+        ¿Estás seguro de que quieres eliminar el ingrediente <strong>"{{ confirmItem?.nombre }}"</strong>? Esta acción no se puede deshacer.
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="cancelarConfirmacion()">Cancelar</button>
+      <button class="btn-danger" (click)="confirmarEliminar()">Eliminar</button>
+    </div>
+  </div>
+</div>
+

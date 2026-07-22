@@ -35,6 +35,15 @@ export class CartaComponent implements OnInit {
 
   savingItem = false;
 
+  // Modo borrar alérgeno/ingrediente
+  modoEliminarAlergeno = false;
+  modoEliminarIngrediente = false;
+
+  // Modal de confirmación de borrado
+  showConfirmModal = false;
+  confirmTipo: 'alergeno' | 'ingrediente' | null = null;
+  confirmItem: any = null;
+
   constructor(
     private platoService: PlatoService,
     private categoriaService: CategoriaService
@@ -81,7 +90,7 @@ export class CartaComponent implements OnInit {
       this.editingPlato = {
         nombre: '',
         descripcion: '',
-        precio: 0,
+        precio: null,
         disponible: true,
         imagenUrl: '',
         categoria: { id: null }
@@ -186,5 +195,43 @@ export class CartaComponent implements OnInit {
       },
       error: (err) => { console.error(err); this.savingItem = false; }
     });
+  }
+
+  // --- Modo eliminar: pide confirmación ---
+  pedirConfirmacionEliminar(tipo: 'alergeno' | 'ingrediente', item: any) {
+    this.confirmTipo = tipo;
+    this.confirmItem = item;
+    this.showConfirmModal = true;
+  }
+
+  cancelarConfirmacion() {
+    this.showConfirmModal = false;
+    this.confirmTipo = null;
+    this.confirmItem = null;
+  }
+
+  confirmarEliminar() {
+    if (!this.confirmItem) return;
+    if (this.confirmTipo === 'alergeno') {
+      this.platoService.deleteAlergeno(this.confirmItem.id).subscribe({
+        next: () => {
+          this.alergenos = this.alergenos.filter(a => a.id !== this.confirmItem.id);
+          this.selectedAlergenosIds.delete(this.confirmItem.id);
+          this.modoEliminarAlergeno = false;
+          this.cancelarConfirmacion();
+        },
+        error: (err) => { console.error('Error eliminando alérgeno', err); this.cancelarConfirmacion(); }
+      });
+    } else if (this.confirmTipo === 'ingrediente') {
+      this.platoService.deleteIngrediente(this.confirmItem.id).subscribe({
+        next: () => {
+          this.ingredientes = this.ingredientes.filter(i => i.id !== this.confirmItem.id);
+          this.selectedIngredientesIds.delete(this.confirmItem.id);
+          this.modoEliminarIngrediente = false;
+          this.cancelarConfirmacion();
+        },
+        error: (err) => { console.error('Error eliminando ingrediente', err); this.cancelarConfirmacion(); }
+      });
+    }
   }
 }

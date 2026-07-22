@@ -21,8 +21,6 @@ public class ControladorPlato {
     @GetMapping
     public ResponseEntity<List<Plato>> listar() {
         return ResponseEntity.ok()
-                .cacheControl(org.springframework.http.CacheControl.maxAge(1, java.util.concurrent.TimeUnit.HOURS)
-                        .cachePublic())
                 .body(platoService.obtenerPlatos());
     }
 
@@ -35,8 +33,6 @@ public class ControladorPlato {
     @GetMapping("/{id}/ingredientes")
     public ResponseEntity<List<Ingrediente>> listarIngredientes(@PathVariable Long id) {
         return ResponseEntity.ok()
-                .cacheControl(org.springframework.http.CacheControl.maxAge(1, java.util.concurrent.TimeUnit.HOURS)
-                        .cachePublic())
                 .body(platoService.obtenerIngredientesPorPlato(id));
     }
 
