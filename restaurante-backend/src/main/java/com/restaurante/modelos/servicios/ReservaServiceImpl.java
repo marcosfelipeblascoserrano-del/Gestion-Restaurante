@@ -148,6 +148,11 @@ public class ReservaServiceImpl implements IReservaService {
     public Reserva confirmarReserva(String token) {
         Reserva reserva = reservaDao.findByTokenConfirmacion(token)
                 .orElseThrow(() -> new IllegalArgumentException("Token inválido o reserva no existe"));
+        
+        if (reserva.getFechaExpiracionToken() != null && LocalDateTime.now().isAfter(reserva.getFechaExpiracionToken())) {
+            throw new IllegalStateException("El token ha expirado");
+        }
+
         if (reserva.getEstado() == EstadoReserva.PENDIENTE) {
             reserva.setEstado(EstadoReserva.CONFIRMADA);
             return reservaDao.save(reserva);
@@ -159,8 +164,14 @@ public class ReservaServiceImpl implements IReservaService {
     @Override
     @Transactional(readOnly = true)
     public Reserva getReservaPorToken(String token) {
-        return reservaDao.findByTokenConfirmacion(token)
+        Reserva reserva = reservaDao.findByTokenConfirmacion(token)
                 .orElseThrow(() -> new IllegalArgumentException("Token inválido o reserva no existe"));
+                
+        if (reserva.getFechaExpiracionToken() != null && LocalDateTime.now().isAfter(reserva.getFechaExpiracionToken())) {
+            throw new IllegalStateException("El token ha expirado");
+        }
+        
+        return reserva;
     }
 
     @Scheduled(fixedRate = 60000)

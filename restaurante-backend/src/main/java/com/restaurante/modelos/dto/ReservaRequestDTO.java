@@ -2,13 +2,33 @@ package com.restaurante.modelos.dto;
 
 import java.time.LocalDate;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public class ReservaRequestDTO {
 
+    @NotBlank
     private String nombre;
+
+    @NotBlank
+    @Email
     private String email;
+
+    @NotBlank
     private String telefono;
+
+    @NotNull
+    @FutureOrPresent
     private LocalDate fecha;
+
+    @NotBlank
     private String slot;
+
+    @NotNull
+    @Min(1)
     private Integer comensales;
 
     public ReservaRequestDTO() {

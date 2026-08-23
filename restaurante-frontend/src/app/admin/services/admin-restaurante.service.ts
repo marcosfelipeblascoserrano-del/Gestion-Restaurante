@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -6,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AdminRestauranteService {
-  private apiUrl = 'http://localhost:8080/api/restaurante';
+  private apiUrl = environment.apiUrl + '/restaurante';
 
   constructor(private http: HttpClient) { }
 
