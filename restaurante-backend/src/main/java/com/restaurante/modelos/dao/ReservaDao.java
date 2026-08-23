@@ -18,4 +18,11 @@ public interface ReservaDao extends JpaRepository<Reserva, Long> {
     java.util.Optional<Reserva> findByTokenConfirmacion(String tokenConfirmacion);
 
     java.util.List<Reserva> findByEstadoAndFechaCreacionBefore(com.restaurante.modelos.entidades.EstadoReserva estado, LocalDateTime fechaCreacion);
+
+    long countByFechaHoraBetween(LocalDateTime start, LocalDateTime end);
+
+    long countByEstado(com.restaurante.modelos.entidades.EstadoReserva estado);
+
+    @Query("SELECT SUM(COALESCE(r.comensales, 1)) FROM Reserva r WHERE r.estado IN :estados")
+    Long sumComensalesByEstados(@Param("estados") java.util.List<com.restaurante.modelos.entidades.EstadoReserva> estados);
 }

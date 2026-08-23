@@ -29,6 +29,9 @@ public class Reserva {
     @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion;
 
+    @Column(name = "fecha_expiracion_token")
+    private LocalDateTime fechaExpiracionToken;
+
     public Reserva() {
     }
 
@@ -104,8 +107,17 @@ public class Reserva {
         this.fechaCreacion = fechaCreacion;
     }
 
+    public LocalDateTime getFechaExpiracionToken() {
+        return fechaExpiracionToken;
+    }
+
+    public void setFechaExpiracionToken(LocalDateTime fechaExpiracionToken) {
+        this.fechaExpiracionToken = fechaExpiracionToken;
+    }
+
     @PrePersist
     protected void onCreate() {
         this.fechaCreacion = LocalDateTime.now();
+        this.fechaExpiracionToken = LocalDateTime.now().plusHours(24);
     }
 }

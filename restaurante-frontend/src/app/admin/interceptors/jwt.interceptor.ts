@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 import {
   HttpRequest,
@@ -15,8 +16,8 @@ export class JwtInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const token = this.authService.getToken();
-    const isApiUrl = request.url.startsWith('http://localhost:8080/api');
-    
+    const isApiUrl = request.url.startsWith(environment.apiUrl);
+
     if (token && isApiUrl) {
       request = request.clone({
         setHeaders: {

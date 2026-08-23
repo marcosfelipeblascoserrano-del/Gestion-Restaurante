@@ -25,12 +25,14 @@ public class RestauranteApplication {
 	@Bean
 	CommandLineRunner initDatabase(UsuarioDao usuarioDao, RestauranteDao restauranteDao, PasswordEncoder passwordEncoder) {
 		return args -> {
-			Optional<Usuario> adminOpt = usuarioDao.findByEmail("admin@restaurante.com");
+			String adminEmail = System.getenv().getOrDefault("ADMIN_EMAIL", "admin@restaurante.com");
+			Optional<Usuario> adminOpt = usuarioDao.findByEmail(adminEmail);
 			if (adminOpt.isEmpty()) {
 				Usuario admin = new Usuario();
 				admin.setNombre("Administrador");
-				admin.setEmail("admin@restaurante.com");
-				admin.setPassword(passwordEncoder.encode("admin123"));
+				admin.setEmail(adminEmail);
+				String adminPass = System.getenv().getOrDefault("ADMIN_PASSWORD", "admin123");
+				admin.setPassword(passwordEncoder.encode(adminPass));
 				admin.setRol(Rol.ADMIN);
 				usuarioDao.save(admin);
 

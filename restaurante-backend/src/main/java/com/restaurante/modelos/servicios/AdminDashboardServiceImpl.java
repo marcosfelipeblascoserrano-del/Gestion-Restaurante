@@ -20,43 +20,35 @@ public class AdminDashboardServiceImpl implements IAdminDashboardService {
     @Autowired
     private ReservaDao reservaDao;
 
+    @org.springframework.beans.factory.annotation.Value("${app.precio-medio-comensal:25}")
+    private long precioMedioComensal;
+
     @Override
     public Map<String, Object> getDashboardStats() {
         Map<String, Object> stats = new HashMap<>();
 
-        List<Reserva> todas = reservaDao.findAll();
-
         LocalDateTime inicioHoy = LocalDate.now().atStartOfDay();
         LocalDateTime finHoy = LocalDate.now().atTime(23, 59, 59);
-
-        long reservasHoy = todas.stream()
-                .filter(r -> r.getFechaHora() != null &&
-                        r.getFechaHora().isAfter(inicioHoy) &&
-                        r.getFechaHora().isBefore(finHoy))
-                .count();
+        long reservasHoy = reservaDao.countByFechaHoraBetween(inicioHoy, finHoy);
 
         YearMonth mesActual = YearMonth.now();
-        long reservasMes = todas.stream()
-                .filter(r -> r.getFechaHora() != null &&
-                        YearMonth.from(r.getFechaHora()).equals(mesActual))
-                .count();
+        LocalDateTime inicioMes = mesActual.atDay(1).atStartOfDay();
+        LocalDateTime finMes = mesActual.atEndOfMonth().atTime(23, 59, 59);
+        long reservasMes = reservaDao.countByFechaHoraBetween(inicioMes, finMes);
 
-        long reservasPendientes = todas.stream()
-                .filter(r -> r.getEstado() == EstadoReserva.PENDIENTE)
-                .count();
+        long reservasPendientes = reservaDao.countByEstado(EstadoReserva.PENDIENTE);
 
-        long ingresosEstimados = todas.stream()
-                .filter(r -> r.getEstado() == EstadoReserva.COMPLETADA || r.getEstado() == EstadoReserva.CONFIRMADA)
-                .mapToLong(r -> (r.getComensales() != null ? r.getComensales() : 1) * 25L) // Estimado: 25 por persona
-                .sum();
+        Long totalComensalesValidos = reservaDao.sumComensalesByEstados(
+            java.util.Arrays.asList(EstadoReserva.COMPLETADA, EstadoReserva.CONFIRMADA)
+        );
+        long comensales = totalComensalesValidos != null ? totalComensalesValidos : 0L;
+        long ingresosEstimados = comensales * precioMedioComensal;
 
         // Datos para gráfico semanal (ultimos 7 dias)
         Map<String, Long> reservasPorDia = new HashMap<>();
         for (int i = 6; i >= 0; i--) {
             LocalDate dia = LocalDate.now().minusDays(i);
-            long count = todas.stream()
-                    .filter(r -> r.getFechaHora() != null && r.getFechaHora().toLocalDate().equals(dia))
-                    .count();
+            long count = reservaDao.countByFechaHoraBetween(dia.atStartOfDay(), dia.atTime(23, 59, 59));
             reservasPorDia.put(dia.toString(), count);
         }
 

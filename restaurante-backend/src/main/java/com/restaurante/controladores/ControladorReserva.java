@@ -15,7 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:4200")
+
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/reservas")
 public class ControladorReserva {
@@ -24,7 +26,7 @@ public class ControladorReserva {
     private IReservaService reservaService;
 
     @PostMapping
-    public ResponseEntity<?> crearReserva(@RequestBody ReservaRequestDTO dto) {
+    public ResponseEntity<?> crearReserva(@Valid @RequestBody ReservaRequestDTO dto) {
         try {
             Reserva nuevaReserva = reservaService.crearReserva(dto);
             return new ResponseEntity<>(nuevaReserva, HttpStatus.CREATED);
