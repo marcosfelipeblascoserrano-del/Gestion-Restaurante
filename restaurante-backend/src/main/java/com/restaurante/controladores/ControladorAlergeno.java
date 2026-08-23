@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -28,7 +29,9 @@ public class ControladorAlergeno {
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+        alergenoDao.deleteAsociacionesConPlatos(id);
         alergenoDao.deleteById(id);
         return ResponseEntity.noContent().build();
     }
